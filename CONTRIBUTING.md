@@ -1,6 +1,6 @@
-# Contributing to Taiyi
+# 为太一贡献代码
 
-Use Python 3.11 or newer. Create a virtual environment, install `.[dev]`, and run:
+请使用 Python 3.11 或更高版本。创建虚拟环境、安装 `.[dev]`，然后运行：
 
 ```bash
 ruff check .
@@ -8,5 +8,5 @@ mypy src/taiyi
 pytest
 ```
 
-Commit messages should use an imperative subject and keep unrelated changes separate.
-Changes to architecture or identity invariants require an ADR under `docs/adr/`.
+提交信息应使用祈使句式的主题，并将无关改动拆分为不同提交。涉及架构或身份不变量的
+修改必须在 `docs/adr/` 下新增或更新架构决策记录。

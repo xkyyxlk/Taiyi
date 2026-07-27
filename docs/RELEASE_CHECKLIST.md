@@ -1,14 +1,14 @@
-# v0.1.0 release checklist
+# v0.1.0 发布检查清单
 
-- [x] Apache-2.0 license and ADRs
-- [x] Installable Python package and `taiyi --help`
-- [x] Mock and OpenAI Providers
-- [x] Core, snapshot, incarnation, worldline, event, memory, and merge persistence
-- [x] Review-gated merge, immutable snapshots, history, and rollback
-- [x] Sensitive event redaction and derived-memory invalidation
-- [x] JSONL and Markdown export
-- [x] Three reproducible standard experiments
-- [x] Unit, integration, scenario, lint, and type-check automation
-- [x] Installation, architecture, contribution, security, and limitation docs
-- [x] Independent clean-environment install verification
-- [ ] Maintainer changelog approval, signed tag, and package publication
+- [x] Apache-2.0 许可证和架构决策记录
+- [x] 可安装的 Python 软件包和 `taiyi --help`
+- [x] `MockProvider` 和 `OpenAIProvider`
+- [x] 身份核心、快照、同位体、世界线、事件、记忆和归一持久化
+- [x] 审核门控的归一、不可变快照、历史记录和回滚
+- [x] 敏感事件擦除和派生记忆失效
+- [x] JSONL 和 Markdown 导出
+- [x] 三个可复现的标准实验
+- [x] 单元、集成、场景、代码风格和类型检查自动化
+- [x] 安装、架构、贡献、安全和限制文档
+- [x] 全新环境独立安装验证
+- [ ] 维护者批准变更日志、创建签名标签并发布软件包

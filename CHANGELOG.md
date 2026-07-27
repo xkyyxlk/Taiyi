@@ -1,9 +1,9 @@
-# Changelog
+# 变更日志
 
 ## 0.1.0 - 2026-07-27
 
-- Added local-first identity cores, immutable snapshots, isolated incarnations, and event logs.
-- Added provenance-bound memory extraction with deterministic Mock and OpenAI Providers.
-- Added explicit worldline diff, human-reviewed merge strategies, rollback, and rebirth.
-- Added event-payload redaction, JSONL/Markdown export, evaluation metrics, and experiments.
-- Added CLI, automated tests, CI, architecture decisions, security guidance, and release docs.
+- 新增本地优先的身份核心、不可变快照、隔离同位体和事件日志。
+- 新增带来源约束的记忆提取，以及结果可重复的 `MockProvider` 和 `OpenAIProvider`。
+- 新增显式世界线差异比较、人工审核归一策略、回滚和重生。
+- 新增事件正文擦除、JSONL/Markdown 导出、评估指标和标准实验。
+- 新增命令行、自动测试、持续集成、架构决策、安全说明和发布文档。

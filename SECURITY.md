@@ -1,7 +1,7 @@
-# Security Policy
+# 安全策略
 
-Do not open public issues for vulnerabilities or exposed identity data. Report them privately
-to the maintainers. Never commit API keys, `.env` files, or `.taiyi` databases.
+请勿通过公开议题报告漏洞或已暴露的身份数据，应私下联系维护者。切勿提交 API 密钥、
+`.env` 文件或 `.taiyi` 数据库。
 
-Taiyi treats model-generated memory and imported worldline data as untrusted. Human review is
-a security boundary, not a guarantee that a proposed merge is safe or true.
+太一将模型生成的记忆和导入的世界线数据视为不可信内容。人工审核是一道安全边界，
+但不能保证归一提案必然安全或真实。

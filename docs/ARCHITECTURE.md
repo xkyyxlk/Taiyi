@@ -1,49 +1,45 @@
-# Taiyi v0.1 architecture
+# 太一 v0.1 架构
 
-## Dependency direction
-
-```text
-CLI -> application services -> domain models
-             |                    ^
-             +-> repository ------+
-             +-> provider protocol
-
-SQLite adapter -> repository contract
-Mock/OpenAI adapters -> provider protocol
-```
-
-The domain contains immutable value models and enums. Application services own workflows
-and access checks. SQLAlchemy and model SDKs remain adapters at the edge.
-
-## Identity and worldlines
-
-An `IdentityCore` is a stable name plus a pointer to the active `IdentitySnapshot`. A fork
-records the exact base snapshot and gets a unique worldline. Normal reads resolve an
-incarnation first and can only load its own events. Cross-worldline access occurs only in the
-diff/merge service.
-
-## Event and deletion model
-
-`worldline_events` holds immutable identity, order, type, timestamp, and SHA-256 payload hash.
-`event_payloads` holds the sensitive JSON body. Redaction clears the selected body, follows
-recorded reply/source links to clear derived event bodies, and invalidates related memories
-without changing the event sequence. This reconciles auditability with erasure, while
-acknowledging that external backups remain outside Taiyi's control.
-
-## Memory trust boundary
-
-Memories are derived, untrusted records. Every memory names its source events, worldline,
-extractor, prompt version, confidence, and importance. Repository validation rejects a normal
-memory whose source is outside its own worldline. Human-reviewed synthesis may cite several
-worldlines and is identified by a `merge:<proposal-id>` origin.
-
-## Merge state machine
+## 依赖方向
 
 ```text
-pending -> approved -> applied -> new immutable snapshot
-       \-> rejected
+命令行 -> 应用服务 -> 领域模型
+             |          ^
+             +-> 仓储 ---+
+             +-> 模型提供器协议
+
+SQLite 适配器 -> 仓储约定
+Mock/OpenAI 适配器 -> 模型提供器协议
 ```
 
-Applying a proposal checks that the core still points to the proposal's base snapshot. This
-prevents a stale review from overwriting newer identity state. Rollback moves the core pointer
-and writes an audit record; it never edits or deletes a snapshot.
+领域层包含不可变值模型和枚举。应用服务负责工作流和访问检查。SQLAlchemy 与模型
+SDK 均作为外围适配器存在。
+
+## 身份与世界线
+
+`IdentityCore` 由稳定名称和指向当前 `IdentitySnapshot` 的指针组成。每次分叉都会
+记录确切的基础快照，并获得唯一世界线。常规读取必须先确定同位体，而且只能载入该
+同位体自己的事件。跨世界线访问只允许发生在差异比较与归一服务中。
+
+## 事件与删除模型
+
+`worldline_events` 保存不可变的事件标识、顺序、类型、时间戳和 SHA-256 正文哈希。
+`event_payloads` 保存敏感的 JSON 正文。擦除操作会清除选定正文，沿已记录的回复和
+来源关系继续清除派生事件正文，并使相关记忆失效，但不会改变事件顺序。这一设计兼顾
+可审计性与数据擦除，同时明确：太一无法控制用户自行生成的外部备份。
+
+## 记忆信任边界
+
+记忆是派生且不可信的记录。每条记忆均保存来源事件、世界线、提取器、提示词版本、
+可信度和重要性。仓储会拒绝来源不属于自身世界线的普通记忆。经人工审核的综合记忆
+可以引用多条世界线，并以 `merge:<proposal-id>` 标识其来源。
+
+## 归一状态机
+
+```text
+待审核 -> 已批准 -> 已应用 -> 新的不可变快照
+      \-> 已拒绝
+```
+
+应用提案时会检查身份核心是否仍指向提案所基于的快照，从而防止陈旧审核覆盖更新的
+身份状态。回滚只移动身份核心指针并写入审计记录，绝不会修改或删除历史快照。

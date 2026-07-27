@@ -1,14 +1,13 @@
-# ADR 0003: Local storage and configuration
+# 架构决策 0003：本地存储与配置
 
-- Status: Accepted
-- Date: 2026-07-27
+- 状态：已接受
+- 日期：2026-07-27
 
-## Decision
+## 决策
 
-Taiyi stores v0.1 state in one SQLite database under `TAIYI_DATA_DIR`. The default is the
-operating system's local application-data directory. CLI `--data-dir` overrides it. Runtime
-configuration comes from environment variables; secrets are never written by Taiyi.
+太一将 v0.1 状态保存在 `TAIYI_DATA_DIR` 下的单个 SQLite 数据库中。默认位置为操作
+系统的本地应用数据目录，命令行参数 `--data-dir` 可以覆盖该位置。运行时配置来自环境
+变量，太一绝不写入密钥。
 
-Events are append-only metadata records. Sensitive payload bodies are stored separately so
-they can be cryptographically or physically erased later without rewriting event identity,
-ordering, or hashes.
+事件采用只追加的元数据记录。敏感正文单独存储，使其以后可以通过加密销毁或物理删除
+擦除，而无需改写事件标识、顺序或哈希。

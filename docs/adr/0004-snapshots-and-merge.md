@@ -1,14 +1,13 @@
-# ADR 0004: Immutable snapshots and reviewed merge
+# 架构决策 0004：不可变快照与审核归一
 
-- Status: Accepted
-- Date: 2026-07-27
+- 状态：已接受
+- 日期：2026-07-27
 
-## Decision
+## 决策
 
-Identity snapshots are immutable. Forks name an explicit base snapshot. A merge proposal is
-inert until a human accepts or edits it. Applying an approved proposal creates a child
-snapshot and advances the core pointer. Rollback only moves that pointer and creates an
-audit event; it does not mutate historical snapshots.
+身份快照不可变。分叉必须指定明确的基础快照。归一提案在人工接受或修改前不会产生
+任何身份变更。应用已批准提案时会创建子快照并推进身份核心指针。回滚只移动该指针并
+创建审计事件，不会修改历史快照。
 
-Conflict resolutions are limited to `coexist`, `select`, `synthesize`, `suspend`, and
-`reject`. Uncertain conflicts default to `suspend`.
+冲突处理仅限 `coexist`、`select`、`synthesize`、`suspend` 和 `reject`。无法确定的
+冲突默认采用 `suspend`。

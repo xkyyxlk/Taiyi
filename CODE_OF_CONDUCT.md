@@ -1,5 +1,4 @@
-# Code of Conduct
+# 行为准则
 
-We are committed to a respectful, harassment-free community. Be considerate, discuss ideas
-rather than people, assume good intent while accepting correction, and protect private data.
-Maintainers may remove content or participation that violates these expectations.
+我们致力于建设一个相互尊重、不受骚扰的社区。请体谅他人、就事论事、在接受纠正的
+同时善意理解他人，并保护私人数据。维护者可以移除违反这些要求的内容或参与者。

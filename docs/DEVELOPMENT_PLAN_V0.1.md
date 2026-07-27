@@ -1,6 +1,6 @@
-# Taiyi v0.1 开发计划
+# 太一 v0.1 开发计划
 
-- 文档状态：Implemented（发布仍需维护者批准）
+- 文档状态：已实施（发布仍需维护者批准）
 - 版本：0.1
 - 制定日期：2026-07-27
 - 计划周期：5 周
@@ -8,13 +8,13 @@
 
 ## 实施状态（2026-07-27）
 
-计划中的 v0.1 工程闭环、CLI、自动测试、标准实验和文档已经实现。发布前剩余的
+计划中的 v0.1 工程闭环、命令行接口、自动测试、标准实验和文档已经实现。发布前剩余的
 维护者操作（干净环境复核、版本标签和包发布）记录在
 [v0.1.0 发布检查清单](RELEASE_CHECKLIST.md)；它们不代表已向任何包仓库发布。
 
 ## 1. 项目定位
 
-Taiyi 是一个支持 AI 身份分叉、世界线隔离、记忆溯源、冲突归一和版本回滚的开源框架。
+太一是一个支持 AI 身份分叉、世界线隔离、记忆溯源、冲突归一和版本回滚的开源框架。
 
 工程定位：**AI 身份的版本控制系统。**
 
@@ -39,9 +39,9 @@ v0.1 必须完成以下闭环：
 
 以下能力不进入 v0.1：
 
-- 完整 Web 管理界面；
+- 完整网页管理界面；
 - 多用户实时协作；
-- 自主执行复杂任务的 Agent 平台；
+- 自主执行复杂任务的智能体平台；
 - 同时维护大量模型供应商适配器；
 - 去中心化身份网络；
 - 自动裁决人格和价值冲突；
@@ -76,51 +76,51 @@ v0.1 必须完成以下闭环：
 
 ### 4.7 本地优先、模型无关
 
-默认数据保存在本地 SQLite 数据库。模型调用通过统一 Provider 接口隔离。
+默认数据保存在本地 SQLite 数据库。模型调用通过统一模型提供器接口隔离。
 
 ## 5. 领域模型
 
-### 5.1 Identity Core
+### 5.1 身份核心（`IdentityCore`）
 
 身份核心是一个稳定标识及其快照历史，本身不直接保存可变状态。
 
 关键字段：
 
-- `id`
-- `name`
-- `created_at`
-- `current_snapshot_id`
+- `id`：身份核心编号
+- `name`：身份名称
+- `created_at`：创建时间
+- `current_snapshot_id`：当前快照编号
 
-### 5.2 Identity Snapshot
+### 5.2 身份快照（`IdentitySnapshot`）
 
 表示某个时刻的身份状态。
 
 关键字段：
 
-- `id`
-- `core_id`
-- `parent_snapshot_ids`
-- `self_description`
-- `accepted_memory_ids`
-- `belief_ids`
-- `unresolved_conflict_ids`
-- `created_by_merge_id`
-- `created_at`
+- `id`：快照编号
+- `core_id`：所属身份核心编号
+- `parent_snapshot_ids`：父快照编号集合
+- `self_description`：自我描述
+- `accepted_memory_ids`：已接受记忆编号集合
+- `belief_ids`：信念编号集合
+- `unresolved_conflict_ids`：未决冲突编号集合
+- `created_by_merge_id`：创建该快照的归一提案编号
+- `created_at`：创建时间
 
-### 5.3 Incarnation
+### 5.3 同位体（`Incarnation`）
 
 从指定身份快照派生的同位体。
 
 关键字段：
 
-- `id`
-- `name`
-- `base_snapshot_id`
-- `worldline_id`
-- `status`
-- `created_at`
+- `id`：同位体编号
+- `name`：同位体名称
+- `base_snapshot_id`：基础快照编号
+- `worldline_id`：世界线编号
+- `status`：当前状态
+- `created_at`：创建时间
 
-### 5.4 Worldline Event
+### 5.4 世界线事件（`WorldlineEvent`）
 
 世界线中的追加式原始记录。
 
@@ -135,15 +135,15 @@ v0.1 必须完成以下闭环：
 
 关键字段：
 
-- `id`
-- `worldline_id`
-- `sequence_number`
-- `event_type`
-- `payload`
-- `payload_hash`
-- `created_at`
+- `id`：事件编号
+- `worldline_id`：世界线编号
+- `sequence_number`：顺序号
+- `event_type`：事件类型
+- `payload`：事件正文
+- `payload_hash`：正文哈希
+- `created_at`：创建时间
 
-### 5.5 Memory
+### 5.5 记忆（`Memory`）
 
 从一个或多个事件派生的长期记忆。
 
@@ -164,7 +164,7 @@ v0.1 必须完成以下闭环：
 - 重要性；
 - 当前状态。
 
-### 5.6 Merge Proposal
+### 5.6 归一提案（`MergeProposal`）
 
 尚未应用的归一方案，包含：
 
@@ -179,17 +179,17 @@ v0.1 必须完成以下闭环：
 ## 6. 核心工作流
 
 ```text
-Core
-  -> Snapshot
-      -> Incarnation A -> Worldline A -> Events -> Memories
-      -> Incarnation B -> Worldline B -> Events -> Memories
+身份核心
+  -> 身份快照
+      -> 同位体甲 -> 世界线甲 -> 事件 -> 记忆
+      -> 同位体乙 -> 世界线乙 -> 事件 -> 记忆
 
-Worldline A + Worldline B
-  -> Diff
-  -> Merge Proposal
-  -> Human Review
-  -> New Snapshot
-  -> New Incarnation
+世界线甲 + 世界线乙
+  -> 差异比较
+  -> 归一提案
+  -> 人工审核
+  -> 新快照
+  -> 新同位体
 ```
 
 ## 7. 归一规则
@@ -206,26 +206,26 @@ Worldline A + Worldline B
 
 归一过程不得直接修改已有快照，必须生成新快照和完整审计记录。
 
-## 8. CLI 范围
+## 8. 命令行接口范围
 
 v0.1 计划提供以下命令：
 
 ```bash
-taiyi init <identity-name>
+taiyi init <身份名称>
 taiyi core show
-taiyi fork <incarnation-name>
-taiyi chat <incarnation-name>
-taiyi worldline show <incarnation-name>
-taiyi memory list <incarnation-name>
-taiyi memory inspect <memory-id>
-taiyi diff <incarnation-a> <incarnation-b>
-taiyi merge propose <incarnation-a> <incarnation-b>
-taiyi merge review <proposal-id>
-taiyi merge apply <proposal-id>
+taiyi fork <同位体名称>
+taiyi chat <同位体名称>
+taiyi worldline show <同位体名称>
+taiyi memory list <同位体名称>
+taiyi memory inspect <记忆编号>
+taiyi diff <同位体甲> <同位体乙>
+taiyi merge propose <同位体甲> <同位体乙>
+taiyi merge review <提案编号>
+taiyi merge apply <提案编号>
 taiyi history
-taiyi rollback <snapshot-id>
-taiyi rebirth <incarnation-name>
-taiyi export <output-path>
+taiyi rollback <快照编号>
+taiyi rebirth <同位体名称>
+taiyi export <输出路径>
 ```
 
 实际参数形式可以在实现期间调整，但行为语义必须保持稳定。
@@ -276,14 +276,14 @@ tests/
 └── scenarios/
 ```
 
-### 9.3 Provider 接口
+### 9.3 模型提供器接口
 
 第一版至少实现：
 
 - `MockProvider`：测试和演示使用，输出可重复；
-- 一个真实模型 Provider：用于实际对话和记忆提取。
+- 一个真实模型提供器：用于实际对话和记忆提取。
 
-领域层不得直接依赖具体模型 SDK。
+领域层不得直接依赖具体模型的软件开发工具包。
 
 ## 10. 开发里程碑
 
@@ -292,7 +292,7 @@ tests/
 任务：
 
 - 确认开源许可证；
-- 确认支持的首个真实模型 Provider；
+- 确认支持的首个真实模型提供器；
 - 确定数据目录和配置约定；
 - 建立架构决策记录目录；
 - 建立 CI、代码风格和提交规范。
@@ -307,7 +307,7 @@ tests/
 
 任务：
 
-- 实现 Core、Snapshot、Incarnation 和 Worldline；
+- 实现身份核心、身份快照、同位体和世界线；
 - 实现 SQLite 仓储；
 - 实现追加式事件日志；
 - 实现 `init`、`core show`、`fork` 和 `history`；
@@ -323,8 +323,8 @@ tests/
 
 任务：
 
-- 定义 Provider 接口；
-- 实现 MockProvider 和首个真实 Provider；
+- 定义模型提供器接口；
+- 实现 `MockProvider` 和首个真实模型提供器；
 - 实现 `chat`；
 - 实现记忆提取、分类和来源绑定；
 - 实现基础记忆检索；
@@ -342,7 +342,7 @@ tests/
 
 - 实现世界线差异比较；
 - 实现重复、补充和冲突识别；
-- 实现 Merge Proposal；
+- 实现归一提案；
 - 实现人工审核流程；
 - 实现新快照生成。
 
@@ -377,7 +377,7 @@ tests/
 - 完成安装、快速开始和架构文档；
 - 完成贡献指南、行为准则和安全说明；
 - 提供示例配置；
-- 整理 Issue 和 PR 模板；
+- 整理议题和合并请求模板；
 - 发布首个版本。
 
 完成标准：
@@ -445,26 +445,26 @@ tests/
 | 模型生成虚假记忆 | 身份历史失真 | 强制来源事件、可信度和人工审核 |
 | 自动总结抹平冲突 | 同位体差异丢失 | 使用结构化冲突对象，不只保存摘要 |
 | 提示注入污染核心 | 身份和行为被恶意改写 | 将记忆视为不可信数据，限制核心修改权限 |
-| MVP 范围扩大 | 无法按期形成闭环 | v0.1 坚持 CLI、本地存储和单 Provider |
+| 最小可行版本范围扩大 | 无法按期形成闭环 | v0.1 坚持命令行、本地存储和单模型提供器 |
 | 哲学主张超过证据 | 降低技术可信度 | 明确区分记忆、身份叙事和主观意识 |
 | 删除与不可变日志冲突 | 隐私数据无法清除 | 事件标识与正文分离，正文支持删除或加密销毁 |
 
-## 15. 首批 Issue 建议
+## 15. 首批议题建议
 
 按以下顺序建立开发任务：
 
-1. 初始化 Python 包、CLI 和测试环境；
+1. 初始化 Python 包、命令行接口和测试环境；
 2. 编写领域对象及不变量测试；
-3. 实现 SQLite schema 和 repository；
+3. 实现 SQLite 数据结构和仓储；
 4. 实现追加式世界线事件日志；
 5. 实现 `init`、`fork` 和 `history`；
-6. 定义 Provider 接口和 MockProvider；
+6. 定义模型提供器接口并实现 `MockProvider`；
 7. 实现对话事件记录；
 8. 实现带来源的记忆提取；
 9. 实现世界线隔离检查；
 10. 实现 `diff`；
-11. 实现 Merge Proposal；
-12. 实现人工审核和 apply；
+11. 实现归一提案；
+12. 实现人工审核和应用流程；
 13. 实现快照回滚；
 14. 实现 JSONL/Markdown 导出；
 15. 实现三个标准实验；
@@ -474,12 +474,12 @@ tests/
 
 v0.2 再考虑：
 
-- Web 实验室；
+- 网页实验室；
 - 世界线关系图；
 - 身份演化时间轴；
 - 向量检索；
 - 自动评估报告；
-- 更多模型 Provider。
+- 更多模型提供器。
 
 v0.3 再考虑：
 

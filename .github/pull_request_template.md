@@ -1,10 +1,10 @@
-## Summary
+## 改动摘要
 
-## Verification
+## 验证情况
 
-- [ ] Tests added or updated
-- [ ] `ruff check .` passes
-- [ ] `mypy src/taiyi` passes
-- [ ] `pytest` passes
-- [ ] Provenance, isolation, review, immutability, and deletion invariants remain intact
-- [ ] Documentation or ADR updated where needed
+- [ ] 已新增或更新测试
+- [ ] `ruff check .` 通过
+- [ ] `mypy src/taiyi` 通过
+- [ ] `pytest` 通过
+- [ ] 来源追溯、世界线隔离、人工审核、快照不可变和删除不变量保持成立
+- [ ] 已按需更新文档或架构决策记录

@@ -1,14 +1,14 @@
-# ADR 0001: Apache-2.0 license
+# 架构决策 0001：采用 Apache-2.0 许可证
 
-- Status: Accepted
-- Date: 2026-07-27
+- 状态：已接受
+- 日期：2026-07-27
 
-## Decision
+## 决策
 
-Taiyi is licensed under Apache License 2.0.
+太一采用 Apache License 2.0 许可证。
 
-## Rationale
+## 理由
 
-The v0.1 goal is broad experimentation and adoption. Apache-2.0 permits commercial and
-private use while providing an explicit patent grant. A network-copyleft requirement can
-be reconsidered if a hosted service becomes the project's primary distribution model.
+v0.1 的目标是促进广泛实验和采用。Apache-2.0 允许商业及私有使用，并提供明确的
+专利授权。如果托管服务将来成为项目的主要分发形式，可以重新评估是否要求网络服务
+公开修改后的源代码。

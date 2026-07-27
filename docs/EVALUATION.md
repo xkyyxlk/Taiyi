@@ -1,23 +1,22 @@
-# Evaluation
+# 评估
 
-Run all reproducible v0.1 experiments with:
+使用以下命令运行全部可复现的 v0.1 标准实验：
 
 ```bash
 taiyi --data-dir .taiyi-eval experiment run all --output-dir experiments
 ```
 
-Each run uses a fresh SQLite database, deterministic `MockProvider`, and writes `report.json`.
+每次运行均使用全新的 SQLite 数据库和结果确定的 `MockProvider`，并生成名为
+`report.json` 的报告文件。
 
-| Experiment | Primary checks |
+| 实验 | 主要检查项 |
 |---|---|
-| same-origin-fork | shared base, distinct worldlines, event isolation |
-| conflict-merge | conflict detection, explicit review, suspended uncertainty |
-| memory-rebirth | new snapshot, two-branch provenance, inheritance by rebirth |
+| 同源分叉 | 共享基础快照、世界线不同、事件相互隔离 |
+| 冲突归一 | 检出冲突、显式人工审核、悬置不确定项 |
+| 记忆重生 | 生成新快照、保留双分支来源、重生后继承记忆 |
 
-`taiyi evaluate` reports source accuracy, false-memory rate, event sequence validity, branch
-fidelity, identity stability, deletion completeness, and pollution resistance. Conflict
-detection rate needs labeled expected conflicts, so the general evaluator returns it as
-unavailable and the conflict experiment supplies the labeled check.
+`taiyi evaluate` 会报告来源准确率、虚假记忆率、事件顺序有效性、分支保真度、身份
+稳定度、删除完成度和污染抵抗力。冲突检出率需要带标准答案的数据，因此通用评估器会
+将其标记为不可用，由冲突归一实验提供带标准答案的检查结果。
 
-These are engineering measurements of stored records and workflow behavior. They are not
-measurements of consciousness or subjective experience.
+这些指标衡量的是存储记录和工程工作流，而不是意识或主观体验。

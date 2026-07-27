@@ -1,10 +1,10 @@
-# Known limitations in v0.1
+# v0.1 已知限制
 
-- One local operator and one default identity core per CLI data directory are assumed.
-- SQLite serialization is suitable for local experiments, not a distributed writer fleet.
-- Memory comparison uses exact normalized text and typed tags, not semantic embeddings.
-- OpenAI extraction relies on JSON returned by the model and may require model-specific tuning.
-- Redaction covers the active database and derived memories, not user-created exports or backups.
-- Human approval reduces accidental core changes but cannot establish that a memory is true.
-- `self_description` remains stable in v0.1; reviewed memories carry most identity evolution.
-- Import, web UI, multi-user permissions, vector search, and decentralized exchange are deferred.
+- 每个命令行数据目录默认只有一个本地操作者和一个身份核心。
+- SQLite 串行化适合本地实验，不适合分布式多写入节点。
+- 记忆比较使用规范化精确文本和类型化标签，尚未使用语义向量。
+- OpenAI 提取依赖模型返回的 JSON，可能需要针对具体模型调整。
+- 擦除只覆盖当前数据库和派生记忆，不会影响用户自行创建的导出文件或备份。
+- 人工批准能降低身份核心被意外修改的风险，但不能证明记忆为真。
+- v0.1 中的 `self_description` 保持稳定，身份演化主要由审核后的记忆承载。
+- 导入、网页界面、多用户权限、向量检索和去中心化交换均推迟到后续版本。

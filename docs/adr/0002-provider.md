@@ -1,17 +1,16 @@
-# ADR 0002: Provider boundary and first real provider
+# 架构决策 0002：模型提供器边界与首个真实提供器
 
-- Status: Accepted
-- Date: 2026-07-27
+- 状态：已接受
+- 日期：2026-07-27
 
-## Decision
+## 决策
 
-The domain and application layers depend on a small `ModelProvider` protocol. v0.1 ships
-with deterministic `MockProvider` and an `OpenAIProvider` using the Responses API. The
-default provider is `mock`; real calls require explicit configuration and `OPENAI_API_KEY`.
-The default model is configurable and initially set to `gpt-5.6-terra`.
+领域层和应用层只依赖精简的 `ModelProvider` 协议。v0.1 提供结果确定的
+`MockProvider`，以及使用 Responses API 的 `OpenAIProvider`。默认提供器为 `mock`；
+真实调用必须显式配置并提供 `OPENAI_API_KEY`。默认模型可以配置，初始值为
+`gpt-5.6-terra` 模型。
 
-## Consequences
+## 影响
 
-Tests and standard experiments are offline and reproducible. Provider output is treated as
-untrusted derived data, validated at the application boundary, and never edits a snapshot
-without review.
+测试和标准实验可以离线、可重复地运行。模型提供器输出一律视为不可信派生数据，必须
+在应用边界通过验证，并且未经审核绝不能修改快照。

@@ -1,14 +1,13 @@
-# Taiyi / 太一
+# 太一
 
-> One Identity, Many Incarnations.  
 > 一体万化，万忆归一。
 
-Taiyi（太一）是一个本地优先的 AI 身份实验框架。它通过可追溯事件、隔离世界线、
+太一是一个本地优先的 AI 身份实验框架。它通过可追溯事件、隔离世界线、
 版本化快照和人工审核归一来实现身份的分叉、演化、合并与回滚。
 
-可以把 Taiyi 理解为：**AI 身份的版本控制系统**。
+可以把太一理解为：**AI 身份的版本控制系统**。
 
-Taiyi 研究记忆连续性和身份叙事连续性，不声称创造、检测或证明 AI 的主观意识。
+太一研究记忆连续性和身份叙事连续性，不声称创造、检测或证明 AI 的主观意识。
 
 ## v0.1 能力
 
@@ -27,8 +26,8 @@ Taiyi 研究记忆连续性和身份叙事连续性，不声称创造、检测�
 
 ```bash
 python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
+# Windows：.venv\Scripts\activate
+# macOS/Linux：source .venv/bin/activate
 python -m pip install -e ".[dev]"
 taiyi --help
 ```
@@ -36,43 +35,43 @@ taiyi --help
 状态默认保存在操作系统的本地应用数据目录。开发和实验时可以明确指定目录：
 
 ```bash
-taiyi --data-dir .taiyi init "My Taiyi"
+taiyi --data-dir .taiyi init "我的太一"
 ```
 
 ## 首次分叉与归一
 
 默认 `MockProvider` 完全离线且输出可重复。它识别
-`remember [topic]: content` 形式的演示记忆：
+`remember [主题]: 内容` 形式的演示记忆：
 
 ```bash
-taiyi --data-dir .taiyi init "My Taiyi"
-taiyi --data-dir .taiyi fork philosopher
-taiyi --data-dir .taiyi fork scientist
-taiyi --data-dir .taiyi chat philosopher "remember [method]: reflection matters"
-taiyi --data-dir .taiyi chat scientist "remember [method]: experiments matter"
-taiyi --data-dir .taiyi diff philosopher scientist
-taiyi --data-dir .taiyi merge propose philosopher scientist
+taiyi --data-dir .taiyi init "我的太一"
+taiyi --data-dir .taiyi fork 哲学家
+taiyi --data-dir .taiyi fork 科学家
+taiyi --data-dir .taiyi chat 哲学家 "remember [方法]: 反思很重要"
+taiyi --data-dir .taiyi chat 科学家 "remember [方法]: 实验很重要"
+taiyi --data-dir .taiyi diff 哲学家 科学家
+taiyi --data-dir .taiyi merge propose 哲学家 科学家
 ```
 
-记下提案 ID 和 diff item ID，再明确审核。冲突默认悬置；也可以覆盖策略：
+记下提案编号和差异项编号，再明确审核。冲突默认悬置；也可以覆盖策略：
 
 ```bash
-taiyi --data-dir .taiyi merge review <proposal-id> --approve
-taiyi --data-dir .taiyi merge apply <proposal-id>
+taiyi --data-dir .taiyi merge review <提案编号> --approve
+taiyi --data-dir .taiyi merge apply <提案编号>
 taiyi --data-dir .taiyi history
-taiyi --data-dir .taiyi rebirth next-generation
+taiyi --data-dir .taiyi rebirth 下一代
 ```
 
-`merge review` 还支持重复传入 `--resolution ITEM_ID=STRATEGY`，以及通过
-`--content ITEM_ID=VALUE` 指定被选择的记忆 ID 或人工综合文本。未经审核的提案不能应用。
+`merge review` 还支持重复传入 `--resolution 差异项编号=策略`，以及通过
+`--content 差异项编号=内容` 指定被选择的记忆编号或人工综合文本。未经审核的提案不能应用。
 
-## 使用 OpenAI Provider
+## 使用 OpenAI 模型提供器
 
-模型调用只存在于 Provider 边界，领域层不依赖模型 SDK：
+模型调用只存在于模型提供器边界，领域层不依赖模型软件开发工具包：
 
 ```bash
 set TAIYI_PROVIDER=openai
-set OPENAI_API_KEY=your-key
+set OPENAI_API_KEY=你的密钥
 set TAIYI_OPENAI_MODEL=gpt-5.6-terra
 ```
 
@@ -82,9 +81,9 @@ macOS/Linux 使用 `export` 代替 `set`。模型名可配置；生产使用前�
 ## 审计、删除和实验
 
 ```bash
-taiyi --data-dir .taiyi memory search philosopher reflection
-taiyi --data-dir .taiyi memory inspect <memory-id>
-taiyi --data-dir .taiyi event redact <event-id>
+taiyi --data-dir .taiyi memory search 哲学家 反思
+taiyi --data-dir .taiyi memory inspect <记忆编号>
+taiyi --data-dir .taiyi event redact <事件编号>
 taiyi --data-dir .taiyi export ./export
 taiyi --data-dir .taiyi evaluate
 taiyi --data-dir .taiyi experiment run all --output-dir ./experiments
