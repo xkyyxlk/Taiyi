@@ -101,6 +101,6 @@ mypy src/taiyi
 pytest --cov=taiyi
 ```
 
-更多信息见 [架构](docs/ARCHITECTURE.md)、[评估](docs/EVALUATION.md)、
-[已知限制](docs/LIMITATIONS.md)、[开发计划](docs/DEVELOPMENT_PLAN_V0.1.md) 和
+更多信息见 [架构](docs/架构.md)、[评估](docs/评估.md)、
+[已知限制](docs/已知限制.md)、[开发计划](docs/开发计划_v0.1.md) 和
 [架构决策记录](docs/adr/)。项目采用 [Apache-2.0](LICENSE) 许可证。
