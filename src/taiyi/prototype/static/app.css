@@ -621,6 +621,39 @@ select:focus {
   gap: 14px;
 }
 
+.incarnation-groups,
+.incarnation-group {
+  display: grid;
+  gap: 14px;
+}
+
+.incarnation-group + .incarnation-group {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.incarnation-group-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+}
+
+.incarnation-group-heading strong {
+  color: var(--navy);
+  font-size: 14px;
+}
+
+.incarnation-group-heading span {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.next-generation-group .identity-card {
+  border-color: rgba(46, 109, 91, 0.28);
+  background: rgba(46, 109, 91, 0.04);
+}
+
 .worldline-card {
   min-width: 0;
   padding: 18px;

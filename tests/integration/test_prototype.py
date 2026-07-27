@@ -87,7 +87,16 @@ def test_prototype_application_completes_core_journey(repository: Repository) ->
     assert len(accepted[0]["source_events"]) == 2
 
     reborn = _execute(application, "identity.rebirth", name="协调者")
-    assert reborn["state"]["stage"] == "complete"  # type: ignore[index]
+    reborn_state = reborn["state"]
+    assert isinstance(reborn_state, dict)
+    assert reborn_state["stage"] == "complete"
+    incarnations = reborn_state["incarnations"]
+    assert isinstance(incarnations, list)
+    assert [item["name"] for item in incarnations] == ["探索者", "守护者", "协调者"]
+    assert incarnations[0]["base_snapshot_id"] == initial_snapshot_id
+    assert incarnations[1]["base_snapshot_id"] == initial_snapshot_id
+    assert incarnations[2]["base_snapshot_id"] == merged_snapshot["id"]
+
     rolled_back = _execute(
         application,
         "identity.rollback",
@@ -152,6 +161,15 @@ def test_prototype_server_serves_local_ui_and_json_api(tmp_path: Path) -> None:
             html = response.read().decode("utf-8")
             assert "身份演化产品原型" in html
             assert "default-src 'self'" in response.headers["Content-Security-Policy"]
+
+        with urlopen(f"{base_url}/assets/app.js", timeout=5) as response:  # noqa: S310
+            script = response.read().decode("utf-8")
+            assert '<span class="status-badge">${incarnationCount}/2 已就绪</span>' not in script
+            assert "比较组已就绪" in script
+            assert "已派生 ${incarnationCount} 个" in script
+            assert "本次比较组" in script
+            assert "下一代同位体" in script
+            assert "不属于上方既有比较组" in script
 
         request = Request(
             f"{base_url}/api/identity",

@@ -162,17 +162,45 @@ function renderIdentity() {
     </section>`;
 }
 
+function renderIncarnationCards(incarnations, roleLabel) {
+  return `<div class="worldline-grid">${incarnations.map((item) => `
+    <div class="identity-card">
+      <div class="identity-seal">${escapeHtml(item.name.slice(0, 1))}</div>
+      <div>
+        <h3>${escapeHtml(item.name)}</h3>
+        <p>从快照 ${escapeHtml(shortId(item.base_snapshot_id))} 派生</p>
+        <div class="meta-row"><span>${escapeHtml(roleLabel)}</span><span>${escapeHtml(shortId(item.worldline_id))}</span></div>
+      </div>
+    </div>`).join("")}</div>`;
+}
+
 function renderIncarnations() {
   if (!currentState.core) return "";
   const incarnationCount = currentState.incarnations.length;
+  const comparisonGroup = currentState.incarnations.slice(0, 2);
+  const laterGenerations = currentState.incarnations.slice(2);
   const demo = currentState.demo;
   const nextName = incarnationCount === 0 ? demo.left_name : demo.right_name;
   const currentSnapshot = currentState.core.current_snapshot_id;
+  const comparisonBase = comparisonGroup[0]?.base_snapshot_id;
+  const comparisonSharesBase = comparisonGroup.length === 2
+    && comparisonGroup.every((item) => item.base_snapshot_id === comparisonBase);
+  const status = incarnationCount < 2
+    ? `${incarnationCount}/2 已就绪`
+    : laterGenerations.length
+      ? `已派生 ${incarnationCount} 个`
+      : "比较组已就绪";
+  const comparisonNote = comparisonSharesBase
+    ? `本次比较组共享基础快照 ${escapeHtml(shortId(comparisonBase))}，但事件和候选记忆相互隔离。`
+    : "本次比较组的基础快照不同，不能视为共享同一起点。";
   return `
     <section class="${panelClass(["incarnations"])}" id="incarnations-panel">
-      <div class="panel-heading"><div><span class="object-badge">运行时经历层</span><h2>派生同位体</h2><p>同位体从明确快照启动，各自拥有隔离的世界线。需要两个同源同位体才能比较。</p></div><span class="status-badge">${incarnationCount}/2 已就绪</span></div>
-      ${currentState.incarnations.length ? `<div class="worldline-grid">${currentState.incarnations.map((item) => `<div class="identity-card"><div class="identity-seal">${escapeHtml(item.name.slice(0, 1))}</div><div><h3>${escapeHtml(item.name)}</h3><p>从快照 ${escapeHtml(shortId(item.base_snapshot_id))} 派生</p><div class="meta-row"><span>${escapeHtml(shortId(item.worldline_id))}</span></div></div></div>`).join("")}</div>` : ""}
-      ${incarnationCount < 2 ? `<form data-action="incarnation.create"><input type="hidden" name="snapshot_id" value="${escapeHtml(currentSnapshot)}"><div class="form-grid"><div class="field"><label for="incarnation-name">第 ${incarnationCount + 1} 个同位体名称</label><input id="incarnation-name" name="name" maxlength="80" required value="${escapeHtml(nextName)}"></div><div class="field"><label for="base-snapshot">基础快照</label><input id="base-snapshot" value="${escapeHtml(shortId(currentSnapshot))}" disabled></div></div><div class="form-actions"><button class="button" type="submit">派生同位体</button></div></form>` : `<div class="concept-rule">两条世界线共享起点，但事件和候选记忆相互隔离。</div>`}
+      <div class="panel-heading"><div><span class="object-badge">运行时经历层</span><h2>派生同位体</h2><p>同位体从明确快照启动，各自拥有隔离的世界线。核心流程先建立两个同源比较对象，归一后再从新快照重生下一代。</p></div><span class="status-badge">${status}</span></div>
+      <div class="incarnation-groups">
+        ${comparisonGroup.length ? `<div class="incarnation-group"><div class="incarnation-group-heading"><strong>本次比较组</strong><span>前两个同位体用于当前差异与归一提案</span></div>${renderIncarnationCards(comparisonGroup, "比较对象")}</div>` : ""}
+        ${laterGenerations.length ? `<div class="incarnation-group next-generation-group"><div class="incarnation-group-heading"><strong>下一代同位体</strong><span>从归一后的身份快照派生，不属于上方既有比较组</span></div>${renderIncarnationCards(laterGenerations, "下一代")}</div>` : ""}
+      </div>
+      ${incarnationCount < 2 ? `<form data-action="incarnation.create"><input type="hidden" name="snapshot_id" value="${escapeHtml(currentSnapshot)}"><div class="form-grid"><div class="field"><label for="incarnation-name">第 ${incarnationCount + 1} 个同位体名称</label><input id="incarnation-name" name="name" maxlength="80" required value="${escapeHtml(nextName)}"></div><div class="field"><label for="base-snapshot">基础快照</label><input id="base-snapshot" value="${escapeHtml(shortId(currentSnapshot))}" disabled></div></div><div class="form-actions"><button class="button" type="submit">派生同位体</button></div></form>` : `<div class="concept-rule">${comparisonNote}</div>`}
     </section>`;
 }
 
