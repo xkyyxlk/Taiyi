@@ -1,20 +1,34 @@
-name: Feature request
-description: Propose a scoped improvement
-title: "[Feature]: "
+name: 功能建议
+description: 提出范围明确的改进建议
+title: "[功能]："
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem
+      label: 需要解决的问题
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Proposed behavior
+      label: 建议行为
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: 非目标
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
     validations:
       required: true
   - type: textarea
     id: invariants
     attributes:
-      label: Identity and provenance invariants affected
+      label: 影响的身份与来源不变量
+  - type: textarea
+    id: migration
+    attributes:
+      label: 兼容性和迁移影响

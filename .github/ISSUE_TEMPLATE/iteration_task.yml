@@ -1,0 +1,50 @@
+name: 迭代任务
+description: 创建可以直接进入开发的太一工作项
+title: "[TY-待分配]："
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: 非目标
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 每条标准都必须能够通过测试、命令或人工检查验证。
+    validations:
+      required: true
+  - type: textarea
+    id: invariants
+    attributes:
+      label: 身份与安全不变量
+      description: 说明来源、隔离、审核、不可变、删除和污染防护影响。
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: 数据迁移与兼容性
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 依赖和阻塞
+  - type: textarea
+    id: verification
+    attributes:
+      label: 测试计划
+    validations:
+      required: true
