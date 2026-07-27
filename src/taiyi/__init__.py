@@ -1,3 +1,3 @@
-"""Taiyi: one identity, many incarnations."""
+"""太一：一体万化，万忆归一。"""
 
 __version__ = "0.1.0"

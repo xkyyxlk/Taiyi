@@ -66,17 +66,17 @@ class ExportService:
         current = self.repository.get_snapshot(core.current_snapshot_id)
         incarnations = self.repository.list_incarnations(core.id)
         lines = [
-            f"# Taiyi export: {core.name}",
+            f"# 太一导出：{core.name}",
             "",
             f"- Core ID: `{core.id}`",
             f"- Current snapshot: `{core.current_snapshot_id}`",
             f"- Created: {core.created_at.isoformat()}",
             "",
-            "## Current identity",
+            "## 当前身份",
             "",
             current.self_description,
             "",
-            "## Snapshots",
+            "## 快照",
             "",
         ]
         for snapshot in self.repository.list_snapshots(core.id):
@@ -84,7 +84,7 @@ class ExportService:
                 f"- `{snapshot.id}` parents={list(snapshot.parent_snapshot_ids)} "
                 f"memories={len(snapshot.accepted_memory_ids)}"
             )
-        lines.extend(["", "## Worldlines", ""])
+        lines.extend(["", "## 世界线", ""])
         for incarnation in incarnations:
             lines.append(f"### {incarnation.name}")
             lines.append("")

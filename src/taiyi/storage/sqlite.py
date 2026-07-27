@@ -33,7 +33,7 @@ from taiyi.domain import (
 
 
 class TaiyiError(RuntimeError):
-    """Base class for expected user-facing errors."""
+    """可预期且面向用户的错误基类。"""
 
 
 class NotFoundError(TaiyiError):
@@ -445,7 +445,7 @@ class Repository:
         draft: MemoryDraft,
         extractor: str = "human-reviewed-merge",
     ) -> Memory:
-        """Create a cross-worldline synthesis while preserving all event provenance."""
+        """创建跨世界线综合记忆，同时保留全部事件来源。"""
         for event_id in draft.source_event_ids:
             self.get_event(event_id)
         memory = Memory(

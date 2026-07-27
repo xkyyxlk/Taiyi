@@ -18,7 +18,7 @@ class OpenAIProvider:
     def __init__(self, model: str) -> None:
         try:
             from openai import OpenAI
-        except ImportError as exc:  # pragma: no cover - installation guard
+        except ImportError as exc:  # pragma: no cover - 安装保护
             raise TaiyiError("OpenAI provider requires the `openai` package") from exc
         self.model = model
         self.client = OpenAI()
