@@ -88,16 +88,16 @@ class PrototypeRequestHandler(BaseHTTPRequestHandler):
         self._send_json(HTTPStatus.OK, response)
 
     def _read_payload(self) -> dict[str, Any]:
-        content_type = self.headers.get_content_type()
-        if content_type != "application/json":
-            raise ValueError("请求必须使用 application/json")
         raw_length = self.headers.get("Content-Length")
         if raw_length is None:
             raise ValueError("请求缺少 Content-Length")
         length = int(raw_length)
         if length < 0 or length > MAX_REQUEST_BYTES:
             raise ValueError("请求内容过大")
-        value = json.loads(self.rfile.read(length).decode("utf-8"))
+        content = self.rfile.read(length)
+        if self.headers.get_content_type() != "application/json":
+            raise ValueError("请求必须使用 application/json")
+        value = json.loads(content.decode("utf-8"))
         if not isinstance(value, dict):
             raise ValueError("请求正文必须是 JSON 对象")
         return value
