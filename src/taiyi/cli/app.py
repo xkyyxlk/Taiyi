@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import webbrowser
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -14,6 +15,7 @@ from taiyi.application.export_service import ExportService
 from taiyi.config import Settings
 from taiyi.domain import MergeStrategy
 from taiyi.evaluation import SCENARIOS, evaluate, run_scenario
+from taiyi.prototype import create_prototype_server
 from taiyi.providers import MockProvider, create_provider
 from taiyi.storage import Database, Repository, TaiyiError
 
@@ -145,6 +147,36 @@ def chat(
             response, memories = service.chat(incarnation_name, prompt)
             typer.echo(f"taiyi> {response}")
             typer.echo(f"[{len(memories)} memories extracted]")
+
+
+@app.command("prototype")
+def prototype(
+    ctx: typer.Context,
+    port: int = typer.Option(8765, "--port", help="本地产品原型监听端口。"),
+    open_browser: bool = typer.Option(
+        True,
+        "--open/--no-open",
+        help="启动后是否使用默认浏览器打开产品原型。",
+    ),
+) -> None:
+    with handled():
+        server = create_prototype_server(
+            ctx.obj.repository,
+            create_provider(ctx.obj.settings),
+            port,
+        )
+        actual_port = server.server_address[1]
+        url = f"http://127.0.0.1:{actual_port}"
+        typer.echo(f"太一产品原型已在本地启动：{url}")
+        typer.echo("按 Ctrl+C 停止。数据只写入当前 --data-dir。")
+        if open_browser:
+            webbrowser.open(url)
+        try:
+            server.serve_forever(poll_interval=0.2)
+        except KeyboardInterrupt:
+            typer.echo("\n产品原型已停止。")
+        finally:
+            server.server_close()
 
 
 @worldline_app.command("show")

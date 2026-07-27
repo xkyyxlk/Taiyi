@@ -12,6 +12,7 @@ runner = CliRunner()
 def test_cli_minimal_workflow(tmp_path) -> None:  # type: ignore[no-untyped-def]
     options = ["--data-dir", str(tmp_path)]
     assert runner.invoke(app, [*options, "--help"]).exit_code == 0
+    assert runner.invoke(app, [*options, "prototype", "--help"]).exit_code == 0
     initialized = runner.invoke(app, [*options, "init", "Taiyi"])
     assert initialized.exit_code == 0, initialized.output
     duplicate = runner.invoke(app, [*options, "init", "Another"])
