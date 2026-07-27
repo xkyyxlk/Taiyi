@@ -25,6 +25,8 @@ dist/
 *.sqlite
 *.sqlite3
 .taiyi/
+.test-runs*/
+experiments/
 
 # Editors and operating systems
 .idea/
