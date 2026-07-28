@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "taiyi-ai"
-version = "0.1.0"
+version = "0.1.1"
 description = "One Identity, Many Incarnations — a version control system for persistent AI identity."
 readme = "README.md"
 requires-python = ">=3.11"

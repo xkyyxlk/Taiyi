@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import re
+import tomllib
 from pathlib import Path
 from urllib.parse import unquote
+
+from taiyi import __version__
 
 ROOT = Path(__file__).parents[2]
 LOCAL_MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\((?!https?://|mailto:|#)([^)#]+)")
@@ -32,6 +35,12 @@ def test_iteration_status_contains_recovery_fields() -> None:
         "## 阻塞与待决定事项",
     )
     assert all(section in status for section in required_sections)
+
+
+def test_package_versions_are_consistent() -> None:
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+
+    assert pyproject["project"]["version"] == __version__
 
 
 def test_document_modules_and_index_are_complete() -> None:
