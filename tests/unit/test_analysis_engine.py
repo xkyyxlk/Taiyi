@@ -135,13 +135,27 @@ def test_policy_rejects_unknown_rule_id() -> None:
 
 
 def test_standard_scenarios_match_analysis_expectations() -> None:
-    manifest = json.loads((FIXTURE_DIR / "scenarios.json").read_text(encoding="utf-8"))
+    manifests = [
+        json.loads((FIXTURE_DIR / name).read_text(encoding="utf-8"))
+        for name in ("scenarios.json", "golden-v1.json")
+    ]
 
-    for scenario in manifest["scenarios"]:
-        if not scenario["protocol_valid"]:
-            continue
-        report = analyze_jsonl(_fixture(scenario["input"]))
-        assert [finding.rule_id for finding in report.findings] == scenario["expected_rule_ids"]
-        assert report.exit_code == scenario["expected_exit_code"]
-        for field_name, expected in scenario.get("expected_summary", {}).items():
-            assert getattr(report.summary, field_name) == expected
+    for manifest in manifests:
+        for scenario in manifest["scenarios"]:
+            if not scenario["protocol_valid"]:
+                continue
+            report = analyze_jsonl(_fixture(scenario["input"]))
+            assert [finding.rule_id for finding in report.findings] == scenario["expected_rule_ids"]
+            assert report.exit_code == scenario["expected_exit_code"]
+            for field_name, expected in scenario.get("expected_summary", {}).items():
+                assert getattr(report.summary, field_name) == expected
+            if "expected_changes" in scenario:
+                actual_changes = [
+                    {
+                        "memory_id": change.memory_id,
+                        "kinds": [kind.value for kind in change.kinds],
+                        "changed_fields": list(change.changed_fields),
+                    }
+                    for change in report.changes
+                ]
+                assert actual_changes == scenario["expected_changes"]

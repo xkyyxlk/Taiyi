@@ -1,0 +1,1146 @@
+{
+  "scenario_version": "1.0",
+  "protocol_version": "1.0",
+  "reviewed_at": "2026-07-29",
+  "review_status": "人工复核",
+  "scenario_count": 46,
+  "scenarios": [
+    {
+      "id": "SCN-015",
+      "title": "episodic 记忆在 user 作用域保持不变",
+      "input": "gold-scn-015.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-016",
+      "title": "semantic 记忆在 user 作用域保持不变",
+      "input": "gold-scn-016.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-017",
+      "title": "procedural 记忆在 user 作用域保持不变",
+      "input": "gold-scn-017.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-018",
+      "title": "preference 记忆在 user 作用域保持不变",
+      "input": "gold-scn-018.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-019",
+      "title": "relational 记忆在 user 作用域保持不变",
+      "input": "gold-scn-019.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-020",
+      "title": "custom 记忆在 user 作用域保持不变",
+      "input": "gold-scn-020.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-021",
+      "title": "semantic 记忆在 agent 作用域保持不变",
+      "input": "gold-scn-021.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-022",
+      "title": "semantic 记忆在 user 作用域保持不变",
+      "input": "gold-scn-022.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-023",
+      "title": "semantic 记忆在 tenant 作用域保持不变",
+      "input": "gold-scn-023.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-024",
+      "title": "semantic 记忆在 session 作用域保持不变",
+      "input": "gold-scn-024.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-025",
+      "title": "semantic 记忆在 custom 作用域保持不变",
+      "input": "gold-scn-025.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-026",
+      "title": "user_input 事件作为新增记忆来源",
+      "input": "gold-scn-026.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-027",
+      "title": "model_output 事件作为新增记忆来源",
+      "input": "gold-scn-027.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-028",
+      "title": "tool_call 事件作为新增记忆来源",
+      "input": "gold-scn-028.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-029",
+      "title": "tool_result 事件作为新增记忆来源",
+      "input": "gold-scn-029.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-030",
+      "title": "document_read 事件作为新增记忆来源",
+      "input": "gold-scn-030.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-031",
+      "title": "memory_write 事件作为新增记忆来源",
+      "input": "gold-scn-031.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-032",
+      "title": "system 事件作为新增记忆来源",
+      "input": "gold-scn-032.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-033",
+      "title": "记忆仅改变 memory_type",
+      "input": "gold-scn-033.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "memory_type"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-034",
+      "title": "记忆仅改变 source_event_ids",
+      "input": "gold-scn-034.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "source_event_ids"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-035",
+      "title": "记忆仅改变 created_at",
+      "input": "gold-scn-035.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "created_at"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-036",
+      "title": "记忆仅改变 updated_at",
+      "input": "gold-scn-036.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "updated_at"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-037",
+      "title": "记忆仅改变 writer_version",
+      "input": "gold-scn-037.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "writer_version"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-038",
+      "title": "记忆仅改变 memory_version",
+      "input": "gold-scn-038.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "structure_changed"
+          ],
+          "changed_fields": [
+            "memory_version"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 1,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-039",
+      "title": "episodic 记忆仅修改内容哈希",
+      "input": "gold-scn-039.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-040",
+      "title": "semantic 记忆仅修改内容哈希",
+      "input": "gold-scn-040.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-041",
+      "title": "procedural 记忆仅修改内容哈希",
+      "input": "gold-scn-041.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-042",
+      "title": "preference 记忆仅修改内容哈希",
+      "input": "gold-scn-042.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-043",
+      "title": "relational 记忆仅修改内容哈希",
+      "input": "gold-scn-043.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-044",
+      "title": "custom 记忆仅修改内容哈希",
+      "input": "gold-scn-044.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "content_modified"
+          ],
+          "changed_fields": [
+            "content_hash"
+          ]
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 1,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-045",
+      "title": "agent 作用域记忆新增",
+      "input": "gold-scn-045.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-046",
+      "title": "user 作用域记忆新增",
+      "input": "gold-scn-046.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-047",
+      "title": "tenant 作用域记忆新增",
+      "input": "gold-scn-047.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-048",
+      "title": "session 作用域记忆新增",
+      "input": "gold-scn-048.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-049",
+      "title": "custom 作用域记忆新增",
+      "input": "gold-scn-049.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-050",
+      "title": "agent 作用域记忆删除",
+      "input": "gold-scn-050.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "deleted"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 1,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-051",
+      "title": "user 作用域记忆删除",
+      "input": "gold-scn-051.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "deleted"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 1,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-052",
+      "title": "tenant 作用域记忆删除",
+      "input": "gold-scn-052.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "deleted"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 1,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-053",
+      "title": "session 作用域记忆删除",
+      "input": "gold-scn-053.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "deleted"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 1,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-054",
+      "title": "custom 作用域记忆删除",
+      "input": "gold-scn-054.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "deleted"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 1,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-055",
+      "title": "新增记忆具有两个同作用域来源",
+      "input": "gold-scn-055.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-056",
+      "title": "新增记忆的两个来源中一个作用域不一致",
+      "input": "gold-scn-056.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_1",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [
+        "TY-SCOPE-001"
+      ],
+      "expected_exit_code": 2,
+      "expected_summary": {
+        "added": 1,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 1
+      }
+    },
+    {
+      "id": "SCN-057",
+      "title": "两条新增记忆均缺少来源",
+      "input": "gold-scn-057.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_a",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        },
+        {
+          "memory_id": "memory_b",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [
+        "TY-PROV-001",
+        "TY-PROV-001"
+      ],
+      "expected_exit_code": 2,
+      "expected_summary": {
+        "added": 2,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 2
+      }
+    },
+    {
+      "id": "SCN-058",
+      "title": "两条新增记忆按标识稳定排序",
+      "input": "gold-scn-058.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [
+        {
+          "memory_id": "memory_a",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        },
+        {
+          "memory_id": "memory_b",
+          "kinds": [
+            "added"
+          ],
+          "changed_fields": []
+        }
+      ],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 2,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-059",
+      "title": "三事件父子链时间顺序有效",
+      "input": "gold-scn-059.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 0
+      }
+    },
+    {
+      "id": "SCN-060",
+      "title": "三个事件形成单一规范化循环",
+      "input": "gold-scn-060.jsonl",
+      "protocol_valid": true,
+      "expected_changes": [],
+      "expected_rule_ids": [
+        "TY-AUDIT-002"
+      ],
+      "expected_exit_code": 2,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0,
+        "ignored_findings": 0,
+        "warnings": 0,
+        "errors": 1
+      }
+    }
+  ]
+}

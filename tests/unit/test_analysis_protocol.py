@@ -179,15 +179,21 @@ def test_duplicate_memory_id_in_snapshot_is_rejected() -> None:
 
 
 def test_standard_scenario_protocol_expectations() -> None:
-    manifest = json.loads((FIXTURE_DIR / "scenarios.json").read_text(encoding="utf-8"))
+    manifests = [
+        json.loads((FIXTURE_DIR / name).read_text(encoding="utf-8"))
+        for name in ("scenarios.json", "golden-v1.json")
+    ]
 
-    assert manifest["scenario_version"] == "1.0"
-    assert manifest["protocol_version"] == "1.0"
-    assert len(manifest["scenarios"]) == 14
-    for scenario in manifest["scenarios"]:
-        content = (FIXTURE_DIR / scenario["input"]).read_text(encoding="utf-8")
-        if scenario["protocol_valid"]:
-            parse_jsonl(content)
-            continue
-        with pytest.raises(ProtocolError, match=scenario["expected_error"]):
-            parse_jsonl(content)
+    assert all(manifest["scenario_version"] == "1.0" for manifest in manifests)
+    assert all(manifest["protocol_version"] == "1.0" for manifest in manifests)
+    assert sum(len(manifest["scenarios"]) for manifest in manifests) == 60
+    scenario_ids = [scenario["id"] for manifest in manifests for scenario in manifest["scenarios"]]
+    assert len(scenario_ids) == len(set(scenario_ids))
+    for manifest in manifests:
+        for scenario in manifest["scenarios"]:
+            content = (FIXTURE_DIR / scenario["input"]).read_text(encoding="utf-8")
+            if scenario["protocol_valid"]:
+                parse_jsonl(content)
+                continue
+            with pytest.raises(ProtocolError, match=scenario["expected_error"]):
+                parse_jsonl(content)
