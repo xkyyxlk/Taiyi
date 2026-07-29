@@ -5,17 +5,27 @@
     {
       "id": "SCN-001",
       "input": "valid-modification.jsonl",
-      "protocol_valid": true
+      "protocol_valid": true,
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "content_modified": 1,
+        "structure_changed": 1
+      }
     },
     {
       "id": "SCN-002",
       "input": "missing-source.jsonl",
-      "protocol_valid": true
+      "protocol_valid": true,
+      "expected_rule_ids": ["TY-PROV-001"],
+      "expected_exit_code": 2
     },
     {
       "id": "SCN-003",
       "input": "cross-scope.jsonl",
-      "protocol_valid": true
+      "protocol_valid": true,
+      "expected_rule_ids": ["TY-SCOPE-001"],
+      "expected_exit_code": 2
     },
     {
       "id": "SCN-004",
