@@ -9,6 +9,9 @@ from taiyi.cli.app import app
 
 runner = CliRunner()
 ANALYSIS_FIXTURES = Path(__file__).parents[1] / "fixtures" / "analysis" / "v1"
+ADAPTER_FIXTURES = (
+    Path(__file__).parents[1] / "fixtures" / "adapters" / "langgraph-langsmith" / "v1"
+)
 
 
 def test_cli_minimal_workflow(tmp_path) -> None:  # type: ignore[no-untyped-def]
@@ -208,4 +211,33 @@ def test_analysis_simulate_is_reproducible_without_legacy_database(tmp_path: Pat
     assert first_manifest == second_manifest
     assert len(json.loads(first_manifest)["cases"]) == 25
     assert len(list(first_output.glob("case-*.jsonl"))) == 25
+    assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_adapt_langgraph_uses_offline_fixture(tmp_path: Path) -> None:
+    data_dir = tmp_path / "legacy-data"
+    output_path = tmp_path / "adapted" / "run.jsonl"
+
+    result = runner.invoke(
+        app,
+        [
+            "--data-dir",
+            str(data_dir),
+            "analyze",
+            "adapt-langgraph",
+            str(ADAPTER_FIXTURES / "run-bundle.json"),
+            "--output",
+            str(output_path),
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    summary = json.loads(result.output)
+    assert summary["adapter_version"] == "1.0"
+    assert summary["langgraph_version"] == "1.2.10"
+    assert summary["langsmith_version"] == "0.10.11"
+    assert summary["record_count"] == 9
+    assert output_path.read_text(encoding="utf-8") == (
+        ADAPTER_FIXTURES / "expected.jsonl"
+    ).read_text(encoding="utf-8")
     assert not (data_dir / "taiyi.sqlite3").exists()

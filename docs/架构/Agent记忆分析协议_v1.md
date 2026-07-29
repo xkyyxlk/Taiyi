@@ -198,4 +198,5 @@ custom
 
 - 中性协议模型：`src/taiyi/analysis/models.py`；
 - JSONL 读取和结构校验：`src/taiyi/analysis/protocol.py`；
+- [LangGraph 与 LangSmith 参考适配器 v1](LangGraph与LangSmith参考适配器_v1.md)；
 - 初始标准场景：[Agent 记忆分析标准场景](../质量/Agent记忆分析标准场景.md)。

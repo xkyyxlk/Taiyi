@@ -11,6 +11,12 @@ from typing import Any
 import typer
 from pydantic import ValidationError
 
+from taiyi.adapters import (
+    ADAPTER_VERSION,
+    SUPPORTED_LANGGRAPH_VERSION,
+    SUPPORTED_LANGSMITH_VERSION,
+    adapt_langgraph_json,
+)
 from taiyi.analysis import (
     COMMIT_SCENARIO_COUNT,
     DEFAULT_SCENARIO_SEED,
@@ -126,7 +132,7 @@ def _write_utf8(path: Path, content: str) -> Path:
         resolved.parent.mkdir(parents=True, exist_ok=True)
         resolved.write_text(content, encoding="utf-8")
     except OSError as exc:
-        raise ValueError(f"无法写入报告文件：{resolved}") from exc
+        raise ValueError(f"无法写入输出文件：{resolved}") from exc
     return resolved
 
 
@@ -238,6 +244,31 @@ def analysis_simulate(
         )
         if summary.mismatches:
             raise typer.Exit(1)
+
+
+@analysis_app.command("adapt-langgraph")
+def analysis_adapt_langgraph(
+    input_path: Path = typer.Argument(..., help="离线 LangGraph/LangSmith 1.0 契约 JSON。"),
+    output_path: Path = typer.Option(
+        ...,
+        "--output",
+        help="中性分析协议 JSONL 输出路径。",
+    ),
+) -> None:
+    with handled():
+        output = adapt_langgraph_json(_read_utf8(input_path, "适配器输入"))
+        parsed = parse_jsonl(output)
+        resolved_output = _write_utf8(output_path, output)
+        _json(
+            {
+                "adapter_version": ADAPTER_VERSION,
+                "langgraph_version": SUPPORTED_LANGGRAPH_VERSION,
+                "langsmith_version": SUPPORTED_LANGSMITH_VERSION,
+                "protocol_version": parsed.manifest.protocol_version,
+                "record_count": len(parsed.records),
+                "output": str(resolved_output),
+            }
+        )
 
 
 @app.command("init")
