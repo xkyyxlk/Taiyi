@@ -18,6 +18,8 @@ from taiyi.adapters import (
     adapt_langgraph_json,
 )
 from taiyi.analysis import (
+    BASELINE_EVENT_COUNT,
+    BASELINE_MEMORY_CHANGE_COUNT,
     COMMIT_MALFORMED_COUNT,
     COMMIT_SCENARIO_COUNT,
     DEFAULT_MALFORMED_SEED,
@@ -29,6 +31,7 @@ from taiyi.analysis import (
     generate_scenarios,
     parse_jsonl,
     render_report,
+    run_performance_sample,
     verify_generated_scenarios,
     verify_malformed_scenarios,
 )
@@ -327,6 +330,34 @@ def analysis_adapt_langgraph(
                 "output": str(resolved_output),
             }
         )
+
+
+@analysis_app.command("benchmark")
+def analysis_benchmark(
+    event_count: int = typer.Option(
+        BASELINE_EVENT_COUNT,
+        "--event-count",
+        help="规模输入中的事件数量。",
+    ),
+    memory_change_count: int = typer.Option(
+        BASELINE_MEMORY_CHANGE_COUNT,
+        "--memory-change-count",
+        help="规模输入中的记忆变化数量。",
+    ),
+    output_path: Path | None = typer.Option(
+        None,
+        "--output",
+        help="性能样本 JSON 输出路径；省略时写入标准输出。",
+    ),
+) -> None:
+    with handled():
+        sample = run_performance_sample(event_count, memory_change_count)
+        rendered = json.dumps(sample.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n"
+        if output_path is None:
+            typer.echo(rendered, nl=False)
+        else:
+            resolved_output = _write_utf8(output_path, rendered)
+            _json({**sample.model_dump(mode="json"), "output": str(resolved_output)})
 
 
 @app.command("init")

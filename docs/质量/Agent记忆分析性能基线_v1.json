@@ -1,0 +1,78 @@
+{
+  "baseline_version": "1.0",
+  "generator_version": "1.0",
+  "protocol_version": "1.0",
+  "tool_version": "0.1.1",
+  "sampled_at": "2026-07-29",
+  "environment": {
+    "python_version": "3.13.12",
+    "implementation": "CPython",
+    "operating_system": "Windows-10-10.0.19045-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 158 Stepping 13, GenuineIntel",
+    "cpu": "Intel(R) Core(TM) i7-9700F CPU @ 3.00GHz",
+    "physical_cores": 8,
+    "logical_processors": 8,
+    "memory_gib": 31.9
+  },
+  "measurement": {
+    "processes_per_scale": 1,
+    "includes": ["generation", "analysis", "json_render"],
+    "peak_memory_kind": "python_tracemalloc",
+    "network_calls": 0,
+    "legacy_sqlite_initialized": false
+  },
+  "samples": [
+    {
+      "event_count": 1000,
+      "memory_change_count": 100,
+      "record_count": 1203,
+      "input_bytes": 401718,
+      "input_sha256": "fc148d0c538f2c3bfaf74490eab894d38096440540072dbe3e77577b22feca1a",
+      "generation_seconds": 0.071973,
+      "analysis_seconds": 0.092484,
+      "render_seconds": 0.007111,
+      "total_seconds": 0.171567,
+      "peak_traced_memory_bytes": 3280675,
+      "report_bytes": 49091,
+      "actual_content_modified": 100,
+      "actual_change_count": 100,
+      "actual_finding_count": 0,
+      "exit_code": 0
+    },
+    {
+      "event_count": 10000,
+      "memory_change_count": 1000,
+      "record_count": 12003,
+      "input_bytes": 4022624,
+      "input_sha256": "bb5178cc22835dd43ee447e405c6e75e6dbfb12d957e21de760dfca193a2992e",
+      "generation_seconds": 0.725559,
+      "analysis_seconds": 0.903445,
+      "render_seconds": 0.078067,
+      "total_seconds": 1.70707,
+      "peak_traced_memory_bytes": 32881114,
+      "report_bytes": 487497,
+      "actual_content_modified": 1000,
+      "actual_change_count": 1000,
+      "actual_finding_count": 0,
+      "exit_code": 0
+    },
+    {
+      "event_count": 100000,
+      "memory_change_count": 10000,
+      "record_count": 120003,
+      "input_bytes": 40339630,
+      "input_sha256": "093f97c8fec4e9c1b49f890174127d145f361393c9a2d022e0ae9b1bffdb5cbf",
+      "generation_seconds": 7.374899,
+      "analysis_seconds": 9.75153,
+      "render_seconds": 0.821741,
+      "total_seconds": 17.94817,
+      "peak_traced_memory_bytes": 328089021,
+      "report_bytes": 4889503,
+      "actual_content_modified": 10000,
+      "actual_change_count": 10000,
+      "actual_finding_count": 0,
+      "exit_code": 0
+    }
+  ]
+}

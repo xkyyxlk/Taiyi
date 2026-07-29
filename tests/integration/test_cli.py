@@ -277,3 +277,33 @@ def test_analysis_adapt_langgraph_uses_offline_fixture(tmp_path: Path) -> None:
         ADAPTER_FIXTURES / "expected.jsonl"
     ).read_text(encoding="utf-8")
     assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_benchmark_is_offline_and_writes_sample(tmp_path: Path) -> None:
+    data_dir = tmp_path / "legacy-data"
+    output_path = tmp_path / "performance" / "sample.json"
+
+    result = runner.invoke(
+        app,
+        [
+            "--data-dir",
+            str(data_dir),
+            "analyze",
+            "benchmark",
+            "--event-count",
+            "20",
+            "--memory-change-count",
+            "5",
+            "--output",
+            str(output_path),
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    summary = json.loads(result.output)
+    saved = json.loads(output_path.read_text(encoding="utf-8"))
+    assert summary["actual_change_count"] == 5
+    assert saved["actual_content_modified"] == 5
+    assert saved["actual_finding_count"] == 0
+    assert saved["exit_code"] == 0
+    assert not (data_dir / "taiyi.sqlite3").exists()
