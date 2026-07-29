@@ -11,7 +11,7 @@ from typing import Any
 import typer
 from pydantic import ValidationError
 
-from taiyi.analysis import Policy, analyze_jsonl, parse_jsonl
+from taiyi.analysis import Policy, ReportFormat, analyze_jsonl, parse_jsonl, render_report
 from taiyi.application import IdentityService, MemoryService, MergeService, WorldlineService
 from taiyi.application.export_service import ExportService
 from taiyi.config import Settings
@@ -110,6 +110,16 @@ def _load_policy(path: Path | None) -> Policy:
         raise ValueError(f"策略文件不符合版本化策略协议：{exc}") from exc
 
 
+def _write_utf8(path: Path, content: str) -> Path:
+    resolved = path.resolve()
+    try:
+        resolved.parent.mkdir(parents=True, exist_ok=True)
+        resolved.write_text(content, encoding="utf-8")
+    except OSError as exc:
+        raise ValueError(f"无法写入报告文件：{resolved}") from exc
+    return resolved
+
+
 @analysis_app.command("validate")
 def analysis_validate(input_path: Path = typer.Argument(..., help="待校验的 JSONL 文件。")) -> None:
     with handled():
@@ -133,17 +143,35 @@ def analysis_check(
         "--policy",
         help="版本化 JSON 策略文件。",
     ),
+    report_format: ReportFormat = typer.Option(
+        ReportFormat.JSON,
+        "--format",
+        help="报告格式：json、markdown 或 html。",
+    ),
+    output_path: Path | None = typer.Option(
+        None,
+        "--output",
+        help="报告输出路径；省略时写入标准输出。",
+    ),
 ) -> None:
     with handled():
         reproduction_command = ["taiyi", "analyze", "check", str(input_path.resolve())]
         if policy_path is not None:
             reproduction_command.extend(("--policy", str(policy_path.resolve())))
+        if report_format is not ReportFormat.JSON:
+            reproduction_command.extend(("--format", report_format.value))
+        if output_path is not None:
+            reproduction_command.extend(("--output", str(output_path.resolve())))
         report = analyze_jsonl(
             _read_utf8(input_path, "协议文件"),
             policy=_load_policy(policy_path),
             reproduction_command=tuple(reproduction_command),
         )
-        _json(report)
+        rendered = render_report(report, report_format)
+        if output_path is None:
+            typer.echo(rendered, nl=False)
+        else:
+            typer.echo(_write_utf8(output_path, rendered))
         if report.exit_code:
             raise typer.Exit(report.exit_code)
 

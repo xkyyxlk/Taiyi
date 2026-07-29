@@ -15,6 +15,13 @@ from taiyi.analysis.models import (
     content_digest,
 )
 from taiyi.analysis.protocol import AnalysisInput, ProtocolError, parse_jsonl, read_jsonl
+from taiyi.analysis.renderers import (
+    ReportFormat,
+    render_html,
+    render_json,
+    render_markdown,
+    render_report,
+)
 from taiyi.analysis.results import (
     REPORT_VERSION,
     RULE_EVENT_CYCLE,
@@ -51,6 +58,7 @@ __all__ = [
     "MemoryType",
     "Producer",
     "ProtocolError",
+    "ReportFormat",
     "Finding",
     "FindingLevel",
     "Policy",
@@ -64,4 +72,8 @@ __all__ = [
     "content_digest",
     "parse_jsonl",
     "read_jsonl",
+    "render_html",
+    "render_json",
+    "render_markdown",
+    "render_report",
 ]

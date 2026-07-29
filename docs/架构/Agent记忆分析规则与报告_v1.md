@@ -127,10 +127,16 @@ taiyi analyze validate ./run.jsonl
 ```bash
 taiyi analyze check ./run.jsonl
 taiyi analyze check ./run.jsonl --policy ./policy.json
+taiyi analyze check ./run.jsonl --format markdown --output ./report.md
+taiyi analyze check ./run.jsonl --format html --output ./report.html
 ```
 
 分析命令不会初始化 `--data-dir`、创建旧 SQLite 或加载模型提供器。协议、文件或策略失败
-写入标准错误并返回一；有效报告始终写入标准输出，是否返回零或二由生效策略决定。
+写入标准错误并返回一；省略 `--output` 时报告写入标准输出，指定路径时创建父目录并使用
+UTF-8 写入文件。有效报告是否返回零或二由生效策略决定。
+
+Markdown 与 HTML 只渲染报告中的变化、规则和最小证据引用，不复制协议输入携带的原始事件
+或记忆正文。HTML 对项目、运行、标识和消息等动态文本执行转义，不允许输入注入页面结构。
 
 ## 确定性要求
 

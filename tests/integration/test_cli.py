@@ -134,3 +134,45 @@ def test_analysis_unknown_policy_rule_uses_exit_code_one(tmp_path) -> None:  # t
 
     assert result.exit_code == 1
     assert "未知规则" in result.output
+
+
+def test_analysis_check_outputs_markdown() -> None:
+    result = runner.invoke(
+        app,
+        [
+            "analyze",
+            "check",
+            str(ANALYSIS_FIXTURES / "valid-modification.jsonl"),
+            "--format",
+            "markdown",
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    assert "# 太一 Agent 记忆分析报告" in result.output
+    assert "## 记忆变化" in result.output
+
+
+def test_analysis_check_writes_html_without_legacy_database(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    data_dir = tmp_path / "legacy-data"
+    output_path = tmp_path / "reports" / "report.html"
+    result = runner.invoke(
+        app,
+        [
+            "--data-dir",
+            str(data_dir),
+            "analyze",
+            "check",
+            str(ANALYSIS_FIXTURES / "missing-source.jsonl"),
+            "--format",
+            "html",
+            "--output",
+            str(output_path),
+        ],
+    )
+
+    assert result.exit_code == 2, result.output
+    assert output_path.is_file()
+    assert '<html lang="zh-CN">' in output_path.read_text(encoding="utf-8")
+    assert "TY-PROV-001" in output_path.read_text(encoding="utf-8")
+    assert not (data_dir / "taiyi.sqlite3").exists()

@@ -25,6 +25,8 @@
 taiyi analyze validate ./run.jsonl
 taiyi analyze check ./run.jsonl
 taiyi analyze check ./run.jsonl --policy ./policy.json
+taiyi analyze check ./run.jsonl --format markdown --output ./report.md
+taiyi analyze check ./run.jsonl --format html --output ./report.html
 ```
 
 分析命令不初始化旧身份 SQLite，不调用外部模型，也不写入外部记忆库。协议和报告规范见
