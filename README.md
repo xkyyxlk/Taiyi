@@ -29,6 +29,7 @@ taiyi analyze check ./run.jsonl --format markdown --output ./report.md
 taiyi analyze check ./run.jsonl --format html --output ./report.html
 taiyi analyze simulate --seed 20260729 --count 1000 --output-dir ./analysis-scenarios
 taiyi analyze simulate-malformed --seed 20260729 --count 1000 --output-dir ./analysis-malformed
+taiyi analyze simulate-milestone --seed 20260729 --count 10000
 taiyi analyze benchmark --event-count 100000 --memory-change-count 10000
 taiyi analyze adapt-langgraph ./run-bundle.json --output ./run.jsonl
 ```

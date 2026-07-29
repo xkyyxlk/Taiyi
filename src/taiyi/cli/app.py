@@ -23,17 +23,21 @@ from taiyi.analysis import (
     COMMIT_MALFORMED_COUNT,
     COMMIT_SCENARIO_COUNT,
     DEFAULT_MALFORMED_SEED,
+    DEFAULT_MILESTONE_SEED,
     DEFAULT_SCENARIO_SEED,
+    MILESTONE_SCENARIO_COUNT,
     Policy,
     ReportFormat,
     analyze_jsonl,
     generate_malformed_scenarios,
+    generate_milestone_scenarios,
     generate_scenarios,
     parse_jsonl,
     render_report,
     run_performance_sample,
     verify_generated_scenarios,
     verify_malformed_scenarios,
+    verify_milestone_scenarios,
 )
 from taiyi.application import IdentityService, MemoryService, MergeService, WorldlineService
 from taiyi.application.export_service import ExportService
@@ -303,6 +307,37 @@ def analysis_simulate_malformed(
                 "manifest": str(manifest_path),
             }
         )
+        if summary.mismatches:
+            raise typer.Exit(1)
+
+
+@analysis_app.command("simulate-milestone")
+def analysis_simulate_milestone(
+    seed: int = typer.Option(
+        DEFAULT_MILESTONE_SEED,
+        "--seed",
+        help="里程碑固定种子。",
+    ),
+    case_count: int = typer.Option(
+        MILESTONE_SCENARIO_COUNT,
+        "--count",
+        help="里程碑组合案例数量。",
+    ),
+    output_path: Path | None = typer.Option(
+        None,
+        "--output",
+        help="里程碑验证摘要 JSON 输出路径；省略时写入标准输出。",
+    ),
+) -> None:
+    with handled():
+        scenarios = generate_milestone_scenarios(seed, case_count)
+        summary = verify_milestone_scenarios(scenarios)
+        rendered = json.dumps(summary.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n"
+        if output_path is None:
+            typer.echo(rendered, nl=False)
+        else:
+            resolved_output = _write_utf8(output_path, rendered)
+            _json({**summary.model_dump(mode="json"), "output": str(resolved_output)})
         if summary.mismatches:
             raise typer.Exit(1)
 

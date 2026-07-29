@@ -307,3 +307,32 @@ def test_analysis_benchmark_is_offline_and_writes_sample(tmp_path: Path) -> None
     assert saved["actual_finding_count"] == 0
     assert saved["exit_code"] == 0
     assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_milestone_simulation_is_offline_and_writes_summary(tmp_path: Path) -> None:
+    data_dir = tmp_path / "legacy-data"
+    output_path = tmp_path / "milestone" / "summary.json"
+
+    result = runner.invoke(
+        app,
+        [
+            "--data-dir",
+            str(data_dir),
+            "analyze",
+            "simulate-milestone",
+            "--seed",
+            "20260729",
+            "--count",
+            "30",
+            "--output",
+            str(output_path),
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    summary = json.loads(result.output)
+    saved = json.loads(output_path.read_text(encoding="utf-8"))
+    assert summary["case_count"] == 30
+    assert saved["distinct_dimension_count"] == 30
+    assert saved["mismatches"] == []
+    assert not (data_dir / "taiyi.sqlite3").exists()
