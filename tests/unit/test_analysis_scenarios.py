@@ -4,14 +4,19 @@ import pytest
 
 from taiyi import __version__
 from taiyi.analysis import (
+    COMMIT_MALFORMED_COUNT,
     COMMIT_SCENARIO_COUNT,
+    DEFAULT_MALFORMED_SEED,
     DEFAULT_SCENARIO_SEED,
+    MalformedKind,
     MemoryPresence,
     ScopeMode,
     SourceMode,
+    generate_malformed_scenarios,
     generate_scenarios,
     parse_jsonl,
     run_generated_scenarios,
+    run_malformed_scenarios,
 )
 
 
@@ -47,3 +52,28 @@ def test_commit_level_thousand_cases_match_independent_expectations() -> None:
 def test_generator_rejects_empty_suite() -> None:
     with pytest.raises(ValueError, match="大于零"):
         generate_scenarios(DEFAULT_SCENARIO_SEED, 0)
+
+
+def test_fixed_seed_malformed_generation_is_reproducible() -> None:
+    first = generate_malformed_scenarios(DEFAULT_MALFORMED_SEED, 40)
+    second = generate_malformed_scenarios(DEFAULT_MALFORMED_SEED, 40)
+    different = generate_malformed_scenarios(DEFAULT_MALFORMED_SEED + 1, 40)
+
+    assert first == second
+    assert [item.input_sha256 for item in first] != [item.input_sha256 for item in different]
+    assert {item.kind for item in first} == set(MalformedKind)
+
+
+def test_commit_level_thousand_malformed_cases_match_stable_expectations() -> None:
+    summary = run_malformed_scenarios(DEFAULT_MALFORMED_SEED, COMMIT_MALFORMED_COUNT)
+
+    assert summary.case_count == 1000
+    assert summary.mismatches == ()
+    assert set(summary.category_counts) == {kind.value for kind in MalformedKind}
+    assert min(summary.category_counts.values()) >= 71
+    assert len(summary.suite_sha256) == 64
+
+
+def test_malformed_generator_rejects_empty_suite() -> None:
+    with pytest.raises(ValueError, match="大于零"):
+        generate_malformed_scenarios(DEFAULT_MALFORMED_SEED, 0)

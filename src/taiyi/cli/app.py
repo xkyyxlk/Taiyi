@@ -18,15 +18,19 @@ from taiyi.adapters import (
     adapt_langgraph_json,
 )
 from taiyi.analysis import (
+    COMMIT_MALFORMED_COUNT,
     COMMIT_SCENARIO_COUNT,
+    DEFAULT_MALFORMED_SEED,
     DEFAULT_SCENARIO_SEED,
     Policy,
     ReportFormat,
     analyze_jsonl,
+    generate_malformed_scenarios,
     generate_scenarios,
     parse_jsonl,
     render_report,
     verify_generated_scenarios,
+    verify_malformed_scenarios,
 )
 from taiyi.application import IdentityService, MemoryService, MergeService, WorldlineService
 from taiyi.application.export_service import ExportService
@@ -224,6 +228,60 @@ def analysis_simulate(
                     "file": file_name,
                     "input_sha256": scenario.input_sha256,
                     "dimensions": scenario.dimensions.model_dump(mode="json"),
+                    "expected": scenario.expected.model_dump(mode="json"),
+                }
+            )
+        manifest = {
+            **summary.model_dump(mode="json"),
+            "cases": cases,
+        }
+        manifest_path = _write_utf8(
+            resolved_output / "manifest.json",
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        )
+        _json(
+            {
+                **summary.model_dump(mode="json"),
+                "output_dir": str(resolved_output),
+                "manifest": str(manifest_path),
+            }
+        )
+        if summary.mismatches:
+            raise typer.Exit(1)
+
+
+@analysis_app.command("simulate-malformed")
+def analysis_simulate_malformed(
+    output_dir: Path = typer.Option(
+        Path("analysis-malformed-scenarios"),
+        "--output-dir",
+        help="生成畸形案例和稳定标准答案清单的输出目录。",
+    ),
+    seed: int = typer.Option(
+        DEFAULT_MALFORMED_SEED,
+        "--seed",
+        help="固定种子。",
+    ),
+    case_count: int = typer.Option(
+        COMMIT_MALFORMED_COUNT,
+        "--count",
+        help="畸形案例数量。",
+    ),
+) -> None:
+    with handled():
+        scenarios = generate_malformed_scenarios(seed, case_count)
+        summary = verify_malformed_scenarios(scenarios)
+        resolved_output = output_dir.resolve()
+        cases: list[dict[str, object]] = []
+        for scenario in scenarios:
+            file_name = f"case-{scenario.case_index:06d}.jsonl"
+            _write_utf8(resolved_output / file_name, scenario.jsonl)
+            cases.append(
+                {
+                    "case_id": scenario.case_id,
+                    "file": file_name,
+                    "kind": scenario.kind.value,
+                    "input_sha256": scenario.input_sha256,
                     "expected": scenario.expected.model_dump(mode="json"),
                 }
             )

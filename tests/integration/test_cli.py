@@ -214,6 +214,42 @@ def test_analysis_simulate_is_reproducible_without_legacy_database(tmp_path: Pat
     assert not (data_dir / "taiyi.sqlite3").exists()
 
 
+def test_analysis_simulate_malformed_is_reproducible_without_legacy_database(
+    tmp_path: Path,
+) -> None:
+    data_dir = tmp_path / "legacy-data"
+    first_output = tmp_path / "first-malformed"
+    second_output = tmp_path / "second-malformed"
+    command = [
+        "--data-dir",
+        str(data_dir),
+        "analyze",
+        "simulate-malformed",
+        "--seed",
+        "20260729",
+        "--count",
+        "35",
+    ]
+
+    first = runner.invoke(app, [*command, "--output-dir", str(first_output)])
+    second = runner.invoke(app, [*command, "--output-dir", str(second_output)])
+
+    assert first.exit_code == 0, first.output
+    assert second.exit_code == 0, second.output
+    first_result = json.loads(first.output)
+    second_result = json.loads(second.output)
+    assert first_result["case_count"] == 35
+    assert first_result["mismatches"] == []
+    assert len(first_result["category_counts"]) == 14
+    assert first_result["suite_sha256"] == second_result["suite_sha256"]
+    first_manifest = (first_output / "manifest.json").read_text(encoding="utf-8")
+    second_manifest = (second_output / "manifest.json").read_text(encoding="utf-8")
+    assert first_manifest == second_manifest
+    assert len(json.loads(first_manifest)["cases"]) == 35
+    assert len(list(first_output.glob("case-*.jsonl"))) == 35
+    assert not (data_dir / "taiyi.sqlite3").exists()
+
+
 def test_analysis_adapt_langgraph_uses_offline_fixture(tmp_path: Path) -> None:
     data_dir = tmp_path / "legacy-data"
     output_path = tmp_path / "adapted" / "run.jsonl"

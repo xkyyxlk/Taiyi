@@ -28,11 +28,13 @@ taiyi analyze check ./run.jsonl --policy ./policy.json
 taiyi analyze check ./run.jsonl --format markdown --output ./report.md
 taiyi analyze check ./run.jsonl --format html --output ./report.html
 taiyi analyze simulate --seed 20260729 --count 1000 --output-dir ./analysis-scenarios
+taiyi analyze simulate-malformed --seed 20260729 --count 1000 --output-dir ./analysis-malformed
 taiyi analyze adapt-langgraph ./run-bundle.json --output ./run.jsonl
 ```
 
 `simulate` 会生成固定种子的提交级案例、独立标准答案和可复核清单。分析命令不初始化旧身份
-SQLite，不调用外部模型，也不写入外部记忆库。协议和报告规范见
+SQLite，不调用外部模型，也不写入外部记忆库。`simulate-malformed` 固定覆盖十四类协议畸形，
+并为每类错误保存稳定标准答案。协议和报告规范见
 [Agent 记忆分析协议 v1](docs/架构/Agent记忆分析协议_v1.md)与
 [Agent 记忆分析规则与报告 v1](docs/架构/Agent记忆分析规则与报告_v1.md)。LangGraph 与
 LangSmith 的离线输入和显式写入字段见
