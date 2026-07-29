@@ -7,11 +7,11 @@ import tracemalloc
 from hashlib import sha256
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from taiyi import __version__
 from taiyi.analysis.engine import analyze_jsonl
-from taiyi.analysis.models import ProtocolModel
+from taiyi.analysis.models import ProtocolModel, Sha256Digest
 from taiyi.analysis.renderers import render_json
 
 PERFORMANCE_GENERATOR_VERSION = "1.0"
@@ -52,6 +52,44 @@ class PerformanceSample(ProtocolModel):
     actual_change_count: int = Field(ge=0)
     actual_finding_count: int = Field(ge=0)
     exit_code: Literal[0, 2]
+
+
+class PerformanceBudget(ProtocolModel):
+    version: Literal["1.0"] = "1.0"
+    event_count: int = Field(ge=1)
+    memory_change_count: int = Field(ge=1)
+    expected_input_sha256: Sha256Digest
+    reference_python_version: str
+    reference_operating_system: str
+    reference_machine: str
+    reference_processor: str
+    baseline_total_seconds: float = Field(gt=0)
+    baseline_peak_traced_memory_bytes: int = Field(ge=1)
+    allowed_regression_percent: float = Field(ge=0, le=100)
+    max_total_seconds: float = Field(gt=0)
+    max_peak_traced_memory_bytes: int = Field(ge=1)
+    max_report_bytes: int = Field(ge=1)
+    expected_change_count: int = Field(ge=0)
+    max_finding_count: int = Field(ge=0)
+    expected_exit_code: Literal[0, 2]
+
+    @model_validator(mode="after")
+    def ceilings_match_declared_regression(self) -> PerformanceBudget:
+        factor = 1 + self.allowed_regression_percent / 100
+        if self.max_total_seconds > self.baseline_total_seconds * factor + 0.000001:
+            raise ValueError("总耗时上限超过声明的回退比例")
+        if (
+            self.max_peak_traced_memory_bytes
+            > int(self.baseline_peak_traced_memory_bytes * factor) + 1
+        ):
+            raise ValueError("峰值内存上限超过声明的回退比例")
+        return self
+
+
+class PerformanceBudgetCheck(ProtocolModel):
+    budget_version: Literal["1.0"] = "1.0"
+    passed: bool
+    violations: tuple[str, ...]
 
 
 def _line(record: dict[str, object]) -> str:
@@ -201,3 +239,42 @@ def run_performance_sample(event_count: int, memory_change_count: int) -> Perfor
         actual_finding_count=len(report.findings),
         exit_code=report.exit_code,
     )
+
+
+def check_performance_budget(
+    sample: PerformanceSample, budget: PerformanceBudget
+) -> PerformanceBudgetCheck:
+    violations: list[str] = []
+    expected_environment = (
+        budget.reference_python_version,
+        budget.reference_operating_system,
+        budget.reference_machine,
+        budget.reference_processor,
+    )
+    actual_environment = (
+        sample.environment.python_version,
+        sample.environment.operating_system,
+        sample.environment.machine,
+        sample.environment.processor,
+    )
+    if actual_environment != expected_environment:
+        violations.append("参考环境不匹配")
+    if sample.input.event_count != budget.event_count:
+        violations.append("事件数量不匹配")
+    if sample.input.memory_change_count != budget.memory_change_count:
+        violations.append("记忆变化数量不匹配")
+    if sample.input.input_sha256 != budget.expected_input_sha256:
+        violations.append("固定输入哈希不匹配")
+    if sample.total_seconds > budget.max_total_seconds:
+        violations.append("总耗时超过预算")
+    if sample.peak_traced_memory_bytes > budget.max_peak_traced_memory_bytes:
+        violations.append("峰值追踪内存超过预算")
+    if sample.report_bytes > budget.max_report_bytes:
+        violations.append("报告大小超过预算")
+    if sample.actual_change_count != budget.expected_change_count:
+        violations.append("实际变化数量不匹配")
+    if sample.actual_finding_count > budget.max_finding_count:
+        violations.append("治理发现数量超过预算")
+    if sample.exit_code != budget.expected_exit_code:
+        violations.append("分析退出码不匹配")
+    return PerformanceBudgetCheck(passed=not violations, violations=tuple(violations))

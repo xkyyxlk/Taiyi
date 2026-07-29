@@ -26,9 +26,11 @@ from taiyi.analysis import (
     DEFAULT_MILESTONE_SEED,
     DEFAULT_SCENARIO_SEED,
     MILESTONE_SCENARIO_COUNT,
+    PerformanceBudget,
     Policy,
     ReportFormat,
     analyze_jsonl,
+    check_performance_budget,
     generate_malformed_scenarios,
     generate_milestone_scenarios,
     generate_scenarios,
@@ -135,6 +137,13 @@ def _load_policy(path: Path | None) -> Policy:
         return Policy.model_validate_json(_read_utf8(path, "策略文件"))
     except ValidationError as exc:
         raise ValueError(f"策略文件不符合版本化策略协议：{exc}") from exc
+
+
+def _load_performance_budget(path: Path) -> PerformanceBudget:
+    try:
+        return PerformanceBudget.model_validate_json(_read_utf8(path, "性能预算文件"))
+    except ValidationError as exc:
+        raise ValueError(f"性能预算文件不符合版本化预算协议：{exc}") from exc
 
 
 def _write_utf8(path: Path, content: str) -> Path:
@@ -384,15 +393,30 @@ def analysis_benchmark(
         "--output",
         help="性能样本 JSON 输出路径；省略时写入标准输出。",
     ),
+    budget_path: Path | None = typer.Option(
+        None,
+        "--budget",
+        help="版本化性能预算 JSON；违反预算时返回退出码二。",
+    ),
 ) -> None:
     with handled():
         sample = run_performance_sample(event_count, memory_change_count)
-        rendered = json.dumps(sample.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n"
+        result = sample.model_dump(mode="json")
+        budget_check = None
+        if budget_path is not None:
+            budget_check = check_performance_budget(
+                sample,
+                _load_performance_budget(budget_path),
+            )
+            result["budget_check"] = budget_check.model_dump(mode="json")
+        rendered = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
         if output_path is None:
             typer.echo(rendered, nl=False)
         else:
             resolved_output = _write_utf8(output_path, rendered)
-            _json({**sample.model_dump(mode="json"), "output": str(resolved_output)})
+            _json({**result, "output": str(resolved_output)})
+        if budget_check is not None and not budget_check.passed:
+            raise typer.Exit(2)
 
 
 @app.command("init")

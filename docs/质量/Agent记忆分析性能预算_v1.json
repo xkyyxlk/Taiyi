@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "event_count": 100000,
+  "memory_change_count": 10000,
+  "expected_input_sha256": "093f97c8fec4e9c1b49f890174127d145f361393c9a2d022e0ae9b1bffdb5cbf",
+  "reference_python_version": "3.13.12",
+  "reference_operating_system": "Windows-10-10.0.19045-SP0",
+  "reference_machine": "AMD64",
+  "reference_processor": "Intel64 Family 6 Model 158 Stepping 13, GenuineIntel",
+  "baseline_total_seconds": 17.94817,
+  "baseline_peak_traced_memory_bytes": 328089021,
+  "allowed_regression_percent": 20,
+  "max_total_seconds": 21.537804,
+  "max_peak_traced_memory_bytes": 393706825,
+  "max_report_bytes": 4889503,
+  "expected_change_count": 10000,
+  "max_finding_count": 0,
+  "expected_exit_code": 0
+}

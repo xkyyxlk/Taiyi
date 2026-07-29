@@ -5,6 +5,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
+from taiyi.analysis import PerformanceBudget, generate_scale_jsonl, performance_environment
 from taiyi.cli.app import app
 
 runner = CliRunner()
@@ -336,3 +337,47 @@ def test_analysis_milestone_simulation_is_offline_and_writes_summary(tmp_path: P
     assert saved["distinct_dimension_count"] == 30
     assert saved["mismatches"] == []
     assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_benchmark_budget_breach_returns_exit_code_two(tmp_path: Path) -> None:
+    _, metadata = generate_scale_jsonl(20, 5)
+    environment = performance_environment()
+    budget_path = tmp_path / "budget.json"
+    budget = PerformanceBudget(
+        event_count=20,
+        memory_change_count=5,
+        expected_input_sha256=metadata.input_sha256,
+        reference_python_version=environment.python_version,
+        reference_operating_system=environment.operating_system,
+        reference_machine=environment.machine,
+        reference_processor=environment.processor,
+        baseline_total_seconds=0.0001,
+        baseline_peak_traced_memory_bytes=1,
+        allowed_regression_percent=20,
+        max_total_seconds=0.00012,
+        max_peak_traced_memory_bytes=2,
+        max_report_bytes=1,
+        expected_change_count=5,
+        max_finding_count=0,
+        expected_exit_code=0,
+    )
+    budget_path.write_text(budget.model_dump_json(), encoding="utf-8")
+
+    result = runner.invoke(
+        app,
+        [
+            "analyze",
+            "benchmark",
+            "--event-count",
+            "20",
+            "--memory-change-count",
+            "5",
+            "--budget",
+            str(budget_path),
+        ],
+    )
+
+    assert result.exit_code == 2, result.output
+    output = json.loads(result.output)
+    assert not output["budget_check"]["passed"]
+    assert "总耗时超过预算" in output["budget_check"]["violations"]

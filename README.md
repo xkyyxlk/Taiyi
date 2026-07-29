@@ -31,6 +31,7 @@ taiyi analyze simulate --seed 20260729 --count 1000 --output-dir ./analysis-scen
 taiyi analyze simulate-malformed --seed 20260729 --count 1000 --output-dir ./analysis-malformed
 taiyi analyze simulate-milestone --seed 20260729 --count 10000
 taiyi analyze benchmark --event-count 100000 --memory-change-count 10000
+taiyi analyze benchmark --budget ./docs/质量/Agent记忆分析性能预算_v1.json
 taiyi analyze adapt-langgraph ./run-bundle.json --output ./run.jsonl
 ```
 
