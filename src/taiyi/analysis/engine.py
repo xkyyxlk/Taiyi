@@ -32,12 +32,22 @@ _STRUCTURE_FIELDS = (
 )
 
 
-def analyze_jsonl(content: str, policy: Policy | None = None) -> AnalysisReport:
+def analyze_jsonl(
+    content: str,
+    policy: Policy | None = None,
+    reproduction_command: tuple[str, ...] = (
+        "taiyi",
+        "analyze",
+        "check",
+        "<input.jsonl>",
+    ),
+) -> AnalysisReport:
     analysis_input = parse_jsonl(content)
     return analyze_input(
         analysis_input,
         input_sha256=sha256(content.encode("utf-8")).hexdigest(),
         policy=policy,
+        reproduction_command=reproduction_command,
     )
 
 
@@ -46,6 +56,12 @@ def analyze_input(
     *,
     input_sha256: str,
     policy: Policy | None = None,
+    reproduction_command: tuple[str, ...] = (
+        "taiyi",
+        "analyze",
+        "check",
+        "<input.jsonl>",
+    ),
 ) -> AnalysisReport:
     effective_policy = policy or Policy()
     unknown_rule_ids = set(effective_policy.overrides) - RULE_IDS
@@ -67,6 +83,7 @@ def analyze_input(
         changes=changes,
         findings=findings,
         summary=summary,
+        reproduction_command=reproduction_command,
         exit_code=exit_code,
     )
 

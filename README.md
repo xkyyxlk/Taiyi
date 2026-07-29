@@ -18,6 +18,19 @@
 当前发布版本是已经打通核心闭环的本地产品原型。`v0.1.1` 在没有真实用户验证的情况下
 按维护者决定发布，不承诺生产级稳定性、学术研究基准或确定的最终市场方向。
 
+当前开发分支正在建设本地优先、只读旁路的 Agent 长期记忆分析工具。该能力尚未发布，
+开发版本可以使用版本化 JSONL 校验和确定性检查：
+
+```bash
+taiyi analyze validate ./run.jsonl
+taiyi analyze check ./run.jsonl
+taiyi analyze check ./run.jsonl --policy ./policy.json
+```
+
+分析命令不初始化旧身份 SQLite，不调用外部模型，也不写入外部记忆库。协议和报告规范见
+[Agent 记忆分析协议 v1](docs/架构/Agent记忆分析协议_v1.md)与
+[Agent 记忆分析规则与报告 v1](docs/架构/Agent记忆分析规则与报告_v1.md)。
+
 ## v0.1 能力
 
 - 从身份快照派生相互隔离的同位体；

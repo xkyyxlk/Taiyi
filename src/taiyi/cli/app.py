@@ -9,7 +9,9 @@ from pathlib import Path
 from typing import Any
 
 import typer
+from pydantic import ValidationError
 
+from taiyi.analysis import Policy, analyze_jsonl, parse_jsonl
 from taiyi.application import IdentityService, MemoryService, MergeService, WorldlineService
 from taiyi.application.export_service import ExportService
 from taiyi.config import Settings
@@ -30,12 +32,14 @@ memory_app = typer.Typer(help="Inspect provenance-bound memories.")
 merge_app = typer.Typer(help="Compare and manually merge worldlines.")
 event_app = typer.Typer(help="Manage event payloads.")
 experiment_app = typer.Typer(help="Run reproducible standard experiments.")
+analysis_app = typer.Typer(help="校验并分析 Agent 长期记忆记录。")
 app.add_typer(core_app, name="core")
 app.add_typer(worldline_app, name="worldline")
 app.add_typer(memory_app, name="memory")
 app.add_typer(merge_app, name="merge")
 app.add_typer(event_app, name="event")
 app.add_typer(experiment_app, name="experiment")
+app.add_typer(analysis_app, name="analyze")
 
 
 @dataclass
@@ -54,6 +58,8 @@ def main(
         help="Directory containing the local Taiyi database.",
     ),
 ) -> None:
+    if ctx.invoked_subcommand == "analyze":
+        return
     settings = Settings.load(data_dir)
     database = Database(settings.database_path)
     database.create_schema()
@@ -84,6 +90,62 @@ def _parse_pairs(values: list[str]) -> dict[str, str]:
             raise ValueError(f"expected ITEM=VALUE, got: {value}")
         result[key] = content
     return result
+
+
+def _read_utf8(path: Path, label: str) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise ValueError(f"无法读取{label}：{path}") from exc
+    except UnicodeError as exc:
+        raise ValueError(f"{label}必须使用 UTF-8 编码：{path}") from exc
+
+
+def _load_policy(path: Path | None) -> Policy:
+    if path is None:
+        return Policy()
+    try:
+        return Policy.model_validate_json(_read_utf8(path, "策略文件"))
+    except ValidationError as exc:
+        raise ValueError(f"策略文件不符合版本化策略协议：{exc}") from exc
+
+
+@analysis_app.command("validate")
+def analysis_validate(input_path: Path = typer.Argument(..., help="待校验的 JSONL 文件。")) -> None:
+    with handled():
+        parsed = parse_jsonl(_read_utf8(input_path, "协议文件"))
+        _json(
+            {
+                "valid": True,
+                "protocol_version": parsed.manifest.protocol_version,
+                "project_id": parsed.manifest.project_id,
+                "run_id": parsed.manifest.run_id,
+                "record_count": len(parsed.records),
+            }
+        )
+
+
+@analysis_app.command("check")
+def analysis_check(
+    input_path: Path = typer.Argument(..., help="待分析的 JSONL 文件。"),
+    policy_path: Path | None = typer.Option(
+        None,
+        "--policy",
+        help="版本化 JSON 策略文件。",
+    ),
+) -> None:
+    with handled():
+        reproduction_command = ["taiyi", "analyze", "check", str(input_path.resolve())]
+        if policy_path is not None:
+            reproduction_command.extend(("--policy", str(policy_path.resolve())))
+        report = analyze_jsonl(
+            _read_utf8(input_path, "协议文件"),
+            policy=_load_policy(policy_path),
+            reproduction_command=tuple(reproduction_command),
+        )
+        _json(report)
+        if report.exit_code:
+            raise typer.Exit(report.exit_code)
 
 
 @app.command("init")

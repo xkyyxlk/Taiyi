@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from typer.testing import CliRunner
 
 from taiyi.cli.app import app
 
 runner = CliRunner()
+ANALYSIS_FIXTURES = Path(__file__).parents[1] / "fixtures" / "analysis" / "v1"
 
 
 def test_cli_minimal_workflow(tmp_path) -> None:  # type: ignore[no-untyped-def]
@@ -23,3 +25,112 @@ def test_cli_minimal_workflow(tmp_path) -> None:  # type: ignore[no-untyped-def]
     shown = runner.invoke(app, [*options, "worldline", "show", "alpha"])
     assert shown.exit_code == 0
     assert len(json.loads(shown.output)) == 3
+
+
+def test_analysis_validate_does_not_initialize_legacy_database(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    data_dir = tmp_path / "legacy-data"
+    result = runner.invoke(
+        app,
+        [
+            "--data-dir",
+            str(data_dir),
+            "analyze",
+            "validate",
+            str(ANALYSIS_FIXTURES / "valid-modification.jsonl"),
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    assert json.loads(result.output) == {
+        "valid": True,
+        "protocol_version": "1.0",
+        "project_id": "project_demo",
+        "run_id": "run_candidate",
+        "record_count": 6,
+    }
+    assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_check_returns_report_exit_codes() -> None:
+    passed = runner.invoke(
+        app,
+        ["analyze", "check", str(ANALYSIS_FIXTURES / "valid-modification.jsonl")],
+    )
+    blocked = runner.invoke(
+        app,
+        ["analyze", "check", str(ANALYSIS_FIXTURES / "missing-source.jsonl")],
+    )
+
+    assert passed.exit_code == 0, passed.output
+    passed_report = json.loads(passed.output)
+    assert passed_report["summary"]["errors"] == 0
+    assert passed_report["reproduction_command"][:3] == ["taiyi", "analyze", "check"]
+    assert blocked.exit_code == 2, blocked.output
+    assert json.loads(blocked.output)["findings"][0]["rule_id"] == "TY-PROV-001"
+
+
+def test_analysis_protocol_error_uses_exit_code_one() -> None:
+    result = runner.invoke(
+        app,
+        ["analyze", "check", str(ANALYSIS_FIXTURES / "invalid-sequence.jsonl")],
+    )
+
+    assert result.exit_code == 1
+    assert "sequence_number" in result.output
+
+
+def test_analysis_policy_file_can_downgrade_rule(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    policy_path = tmp_path / "policy.json"
+    policy_path.write_text(
+        json.dumps(
+            {
+                "version": "1.0",
+                "overrides": {"TY-PROV-001": "warning"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = runner.invoke(
+        app,
+        [
+            "analyze",
+            "check",
+            str(ANALYSIS_FIXTURES / "missing-source.jsonl"),
+            "--policy",
+            str(policy_path),
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    report = json.loads(result.output)
+    assert report["summary"]["warnings"] == 1
+    assert report["summary"]["errors"] == 0
+    assert report["reproduction_command"][-2] == "--policy"
+
+
+def test_analysis_unknown_policy_rule_uses_exit_code_one(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    policy_path = tmp_path / "policy.json"
+    policy_path.write_text(
+        json.dumps(
+            {
+                "version": "1.0",
+                "overrides": {"TY-UNKNOWN-001": "error"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = runner.invoke(
+        app,
+        [
+            "analyze",
+            "check",
+            str(ANALYSIS_FIXTURES / "valid-modification.jsonl"),
+            "--policy",
+            str(policy_path),
+        ],
+    )
+
+    assert result.exit_code == 1
+    assert "未知规则" in result.output

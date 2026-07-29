@@ -91,4 +91,5 @@ class AnalysisReport(ResultModel):
     changes: tuple[MemoryChange, ...]
     findings: tuple[Finding, ...]
     summary: AnalysisSummary
+    reproduction_command: tuple[str, ...] = Field(min_length=4)
     exit_code: Literal[0, 2]
