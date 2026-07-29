@@ -183,7 +183,7 @@ def test_standard_scenario_protocol_expectations() -> None:
 
     assert manifest["scenario_version"] == "1.0"
     assert manifest["protocol_version"] == "1.0"
-    assert len(manifest["scenarios"]) == 4
+    assert len(manifest["scenarios"]) == 14
     for scenario in manifest["scenarios"]:
         content = (FIXTURE_DIR / scenario["input"]).read_text(encoding="utf-8")
         if scenario["protocol_valid"]:

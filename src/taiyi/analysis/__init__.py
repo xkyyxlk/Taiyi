@@ -37,6 +37,21 @@ from taiyi.analysis.results import (
     MemoryChangeKind,
     Policy,
 )
+from taiyi.analysis.scenarios import (
+    COMMIT_SCENARIO_COUNT,
+    DEFAULT_SCENARIO_SEED,
+    GENERATOR_VERSION,
+    ExpectedAnalysis,
+    GeneratedScenario,
+    MemoryPresence,
+    ScenarioDimensions,
+    ScenarioRunSummary,
+    ScopeMode,
+    SourceMode,
+    generate_scenarios,
+    run_generated_scenarios,
+    verify_generated_scenarios,
+)
 
 __all__ = [
     "PROTOCOL_VERSION",
@@ -76,4 +91,17 @@ __all__ = [
     "render_json",
     "render_markdown",
     "render_report",
+    "COMMIT_SCENARIO_COUNT",
+    "DEFAULT_SCENARIO_SEED",
+    "GENERATOR_VERSION",
+    "ExpectedAnalysis",
+    "GeneratedScenario",
+    "MemoryPresence",
+    "ScenarioDimensions",
+    "ScenarioRunSummary",
+    "ScopeMode",
+    "SourceMode",
+    "generate_scenarios",
+    "run_generated_scenarios",
+    "verify_generated_scenarios",
 ]

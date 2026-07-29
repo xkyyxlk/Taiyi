@@ -11,7 +11,17 @@ from typing import Any
 import typer
 from pydantic import ValidationError
 
-from taiyi.analysis import Policy, ReportFormat, analyze_jsonl, parse_jsonl, render_report
+from taiyi.analysis import (
+    COMMIT_SCENARIO_COUNT,
+    DEFAULT_SCENARIO_SEED,
+    Policy,
+    ReportFormat,
+    analyze_jsonl,
+    generate_scenarios,
+    parse_jsonl,
+    render_report,
+    verify_generated_scenarios,
+)
 from taiyi.application import IdentityService, MemoryService, MergeService, WorldlineService
 from taiyi.application.export_service import ExportService
 from taiyi.config import Settings
@@ -174,6 +184,60 @@ def analysis_check(
             typer.echo(_write_utf8(output_path, rendered))
         if report.exit_code:
             raise typer.Exit(report.exit_code)
+
+
+@analysis_app.command("simulate")
+def analysis_simulate(
+    output_dir: Path = typer.Option(
+        Path("analysis-scenarios"),
+        "--output-dir",
+        help="生成案例和清单的输出目录。",
+    ),
+    seed: int = typer.Option(
+        DEFAULT_SCENARIO_SEED,
+        "--seed",
+        help="固定种子。",
+    ),
+    case_count: int = typer.Option(
+        COMMIT_SCENARIO_COUNT,
+        "--count",
+        help="组合案例数量。",
+    ),
+) -> None:
+    with handled():
+        scenarios = generate_scenarios(seed, case_count)
+        summary = verify_generated_scenarios(scenarios)
+        resolved_output = output_dir.resolve()
+        cases: list[dict[str, object]] = []
+        for scenario in scenarios:
+            file_name = f"case-{scenario.case_index:06d}.jsonl"
+            _write_utf8(resolved_output / file_name, scenario.jsonl)
+            cases.append(
+                {
+                    "case_id": scenario.case_id,
+                    "file": file_name,
+                    "input_sha256": scenario.input_sha256,
+                    "dimensions": scenario.dimensions.model_dump(mode="json"),
+                    "expected": scenario.expected.model_dump(mode="json"),
+                }
+            )
+        manifest = {
+            **summary.model_dump(mode="json"),
+            "cases": cases,
+        }
+        manifest_path = _write_utf8(
+            resolved_output / "manifest.json",
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        )
+        _json(
+            {
+                **summary.model_dump(mode="json"),
+                "output_dir": str(resolved_output),
+                "manifest": str(manifest_path),
+            }
+        )
+        if summary.mismatches:
+            raise typer.Exit(1)
 
 
 @app.command("init")

@@ -176,3 +176,36 @@ def test_analysis_check_writes_html_without_legacy_database(tmp_path) -> None:  
     assert '<html lang="zh-CN">' in output_path.read_text(encoding="utf-8")
     assert "TY-PROV-001" in output_path.read_text(encoding="utf-8")
     assert not (data_dir / "taiyi.sqlite3").exists()
+
+
+def test_analysis_simulate_is_reproducible_without_legacy_database(tmp_path: Path) -> None:
+    data_dir = tmp_path / "legacy-data"
+    first_output = tmp_path / "first"
+    second_output = tmp_path / "second"
+    command = [
+        "--data-dir",
+        str(data_dir),
+        "analyze",
+        "simulate",
+        "--seed",
+        "20260729",
+        "--count",
+        "25",
+    ]
+
+    first = runner.invoke(app, [*command, "--output-dir", str(first_output)])
+    second = runner.invoke(app, [*command, "--output-dir", str(second_output)])
+
+    assert first.exit_code == 0, first.output
+    assert second.exit_code == 0, second.output
+    first_result = json.loads(first.output)
+    second_result = json.loads(second.output)
+    assert first_result["case_count"] == 25
+    assert first_result["mismatches"] == []
+    assert first_result["suite_sha256"] == second_result["suite_sha256"]
+    first_manifest = (first_output / "manifest.json").read_text(encoding="utf-8")
+    second_manifest = (second_output / "manifest.json").read_text(encoding="utf-8")
+    assert first_manifest == second_manifest
+    assert len(json.loads(first_manifest)["cases"]) == 25
+    assert len(list(first_output.glob("case-*.jsonl"))) == 25
+    assert not (data_dir / "taiyi.sqlite3").exists()

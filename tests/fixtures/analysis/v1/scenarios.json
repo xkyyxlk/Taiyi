@@ -32,6 +32,83 @@
       "input": "invalid-sequence.jsonl",
       "protocol_valid": false,
       "expected_error": "sequence_number"
+    },
+    {
+      "id": "SCN-005",
+      "input": "unchanged.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {
+        "added": 0,
+        "deleted": 0,
+        "content_modified": 0,
+        "structure_changed": 0
+      }
+    },
+    {
+      "id": "SCN-006",
+      "input": "added-memory.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {"added": 1}
+    },
+    {
+      "id": "SCN-007",
+      "input": "deleted-memory.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": [],
+      "expected_exit_code": 0,
+      "expected_summary": {"deleted": 1}
+    },
+    {
+      "id": "SCN-008",
+      "input": "scope-changed.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": ["TY-SCOPE-001"],
+      "expected_exit_code": 2,
+      "expected_summary": {"structure_changed": 1, "errors": 1}
+    },
+    {
+      "id": "SCN-009",
+      "input": "duplicate-memory-id.jsonl",
+      "protocol_valid": false,
+      "expected_error": "memory_id 必须唯一"
+    },
+    {
+      "id": "SCN-010",
+      "input": "dangling-source.jsonl",
+      "protocol_valid": false,
+      "expected_error": "不存在的来源事件"
+    },
+    {
+      "id": "SCN-011",
+      "input": "content-hash-mismatch.jsonl",
+      "protocol_valid": false,
+      "expected_error": "不符合协议"
+    },
+    {
+      "id": "SCN-012",
+      "input": "unsupported-version.jsonl",
+      "protocol_valid": false,
+      "expected_error": "不符合协议"
+    },
+    {
+      "id": "SCN-013",
+      "input": "parent-after-child.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": ["TY-AUDIT-001"],
+      "expected_exit_code": 2,
+      "expected_summary": {"errors": 1}
+    },
+    {
+      "id": "SCN-014",
+      "input": "event-cycle.jsonl",
+      "protocol_valid": true,
+      "expected_rule_ids": ["TY-AUDIT-002"],
+      "expected_exit_code": 2,
+      "expected_summary": {"errors": 1}
     }
   ]
 }

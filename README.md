@@ -27,9 +27,11 @@ taiyi analyze check ./run.jsonl
 taiyi analyze check ./run.jsonl --policy ./policy.json
 taiyi analyze check ./run.jsonl --format markdown --output ./report.md
 taiyi analyze check ./run.jsonl --format html --output ./report.html
+taiyi analyze simulate --seed 20260729 --count 1000 --output-dir ./analysis-scenarios
 ```
 
-分析命令不初始化旧身份 SQLite，不调用外部模型，也不写入外部记忆库。协议和报告规范见
+`simulate` 会生成固定种子的提交级案例、独立标准答案和可复核清单。分析命令不初始化旧身份
+SQLite，不调用外部模型，也不写入外部记忆库。协议和报告规范见
 [Agent 记忆分析协议 v1](docs/架构/Agent记忆分析协议_v1.md)与
 [Agent 记忆分析规则与报告 v1](docs/架构/Agent记忆分析规则与报告_v1.md)。
 
