@@ -1,0 +1,27 @@
+{
+  "scenario_version": "1.0",
+  "protocol_version": "1.0",
+  "scenarios": [
+    {
+      "id": "SCN-001",
+      "input": "valid-modification.jsonl",
+      "protocol_valid": true
+    },
+    {
+      "id": "SCN-002",
+      "input": "missing-source.jsonl",
+      "protocol_valid": true
+    },
+    {
+      "id": "SCN-003",
+      "input": "cross-scope.jsonl",
+      "protocol_valid": true
+    },
+    {
+      "id": "SCN-004",
+      "input": "invalid-sequence.jsonl",
+      "protocol_valid": false,
+      "expected_error": "sequence_number"
+    }
+  ]
+}
